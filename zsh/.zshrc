@@ -122,7 +122,7 @@ ZSH_HIGHLIGHT_MAXLENGTH=300   # it re-parses the whole line per keystroke; skip 
 # --- Machine-specific overrides (not tracked) ---
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 
-ccw() { CLAUDE_CONFIG_DIR="$HOME/.ccw" claude --model claude-fable-5-1 "$@"; }
+ccw() { CLAUDE_CONFIG_DIR="$HOME/.ccw" claude "$@"; }
 
 # Dedupe once more: `export PATH=...` lines bypass typeset -U (.zprofile also adds ~/.local/bin)
 path=($path)
