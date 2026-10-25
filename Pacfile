@@ -127,6 +127,11 @@ copyq                  # clipboard history (Maccy)
 flameshot              # area screenshots with annotation
 keyd                   # key remapping in the kernel: see linux/keyd.conf
 
+# --- GPU (AMD): Vulkan for Steam and ollama-vulkan. Listed so pacman uses them instead of asking
+# which vulkan-driver to install; its default answer is NVIDIA's, which does nothing on this card.
+vulkan-radeon
+lib32-vulkan-radeon
+
 # --- apps ---
 discord
 steam                  # needs [multilib] in /etc/pacman.conf
