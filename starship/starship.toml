@@ -3,7 +3,7 @@
 # Flat Catppuccin Mocha prompt (matches the Ghostty theme). No pills or caps:
 # plain coloured text, so the line is cheap to draw and nothing "bubbles".
 #
-#   󰇥 ~/mac-dotfiles  main !?  v24.20.0 ··········· 󰮯 ····· 󰊠 10:30
+#   󰇥 ~/dotfiles  main !?  v24.20.0 ··········· 󰮯 ····· 󰊠 10:30
 #   ❯
 #
 # The pacman/ghost trail is just $fill between two icons.

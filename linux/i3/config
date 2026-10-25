@@ -1,4 +1,4 @@
-# ~/.config/i3/config -- symlinked from ~/mac-dotfiles/linux/i3/config (Linux only)
+# ~/.config/i3/config -- symlinked from ~/dotfiles/linux/i3/config (Linux only)
 # This file is a modified version based on default i3-config-wizard config
 # source is available here:
 # https://raw.githubusercontent.com/endeavouros-team/endeavouros-i3wm-setup/master/.config/i3/config
@@ -589,7 +589,7 @@ bindsym Ctrl+Print exec --no-startup-id maim --format=png | xclip -selection cli
 bindsym Ctrl+$mod+Print exec --no-startup-id maim --format=png --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 bindsym $mod+Shift+s exec --no-startup-id maim --format=png --select | xclip -selection clipboard -t image/png
 exec --no-startup-id setxkbmap -layout 'us,mn' -variant qwerty -option 'grp:win_space_toggle'
-# key repeat matching the Mac: 200 ms delay, then 60/s. Stopgap until ~/mac-dotfiles/install.sh has
+# key repeat matching the Mac: 200 ms delay, then 60/s. Stopgap until ~/dotfiles/install.sh has
 # copied linux/xorg-keyrepeat.conf into /etc/X11/xorg.conf.d (that also survives replug and suspend);
 # delete these lines then. Keep the numbers the same as that file.
 exec_always --no-startup-id sleep 1 && xset r rate 200 60

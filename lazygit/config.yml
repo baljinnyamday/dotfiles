@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
 # ~/Library/Application Support/lazygit/config.yml (macOS) or ~/.config/lazygit/config.yml (Linux)
-# -- symlinked from ~/mac-dotfiles/lazygit/config.yml
+# -- symlinked from ~/dotfiles/lazygit/config.yml
 # Press ? in any panel to see these custom commands next to the built-in keys.
 
 gui:

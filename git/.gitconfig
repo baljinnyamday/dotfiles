@@ -1,4 +1,4 @@
-# ~/.gitconfig -- symlinked from ~/mac-dotfiles/git/.gitconfig
+# ~/.gitconfig -- symlinked from ~/dotfiles/git/.gitconfig
 # Identity and signing live in ~/.gitconfig.local (not tracked), e.g.
 #   [user]   name = ... / email = ... / signingkey = ...
 #   [commit] gpgsign = true

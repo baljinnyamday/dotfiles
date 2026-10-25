@@ -1,4 +1,4 @@
-# ~/.aerospace.toml -- symlinked from ~/mac-dotfiles/aerospace/aerospace.toml
+# ~/.aerospace.toml -- symlinked from ~/dotfiles/aerospace/aerospace.toml
 # i3-style bindings, alt is the modifier. Docs: https://nikitabobko.github.io/AeroSpace/guide
 config-version = 2
 

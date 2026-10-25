@@ -1,4 +1,4 @@
-# ~/.config/ghostty/config -- symlinked from ~/mac-dotfiles/ghostty/config
+# ~/.config/ghostty/config -- symlinked from ~/dotfiles/ghostty/config
 # cmux reads this file too (theme, font, colors, cursor), so both apps look the same.
 # Reload: cmd+shift+,   All options: ghostty +show-config --default --docs
 

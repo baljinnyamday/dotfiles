@@ -1,4 +1,4 @@
-# ~/.config/git/os.gitconfig on macOS -- symlinked from ~/mac-dotfiles/git/os-darwin.gitconfig
+# ~/.config/git/os.gitconfig on macOS -- symlinked from ~/dotfiles/git/os-darwin.gitconfig
 # Full Homebrew paths, so apps started from the Dock (no shell PATH) still find them.
 [gpg]
 	program = /opt/homebrew/bin/gpg

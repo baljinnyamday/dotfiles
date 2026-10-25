@@ -1,4 +1,4 @@
-# ~/mac-dotfiles/zsh/aliases.zsh -- sourced from .zshrc
+# ~/dotfiles/zsh/aliases.zsh -- sourced from .zshrc
 # Only aliases, one-liners, and functions that must change this shell (cd / export) live here.
 # Anything longer is a script in ../bin (linked into ~/.local/bin by install.sh), so it also
 # works from bash, other scripts, tmux/cmux keybindings and agents.

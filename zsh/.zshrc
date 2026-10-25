@@ -1,4 +1,4 @@
-# ~/.zshrc -- symlinked from ~/mac-dotfiles/zsh/.zshrc
+# ~/.zshrc -- symlinked from ~/dotfiles/zsh/.zshrc
 # Machine-specific or secret settings (work package index, tokens) go in
 # ~/.zshrc.local, which is sourced at the end and never tracked.
 

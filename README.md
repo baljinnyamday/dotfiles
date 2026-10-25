@@ -1,4 +1,4 @@
-# mac-dotfiles
+# dotfiles
 
 Every config here is symlinked into `$HOME`, so editing a dotfile in place
 edits this repo. Commit and push when you're done. Works on macOS and on Arch
@@ -10,8 +10,8 @@ and the OS-specific ones on each.
 ```sh
 xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-git clone git@github.com:baljinnyamday/mac-dotfiles.git ~/mac-dotfiles
-cd ~/mac-dotfiles
+git clone git@github.com:baljinnyamday/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 ./install.sh --brew --tools   # symlink configs, brew bundle, then claude / uv / cursor-agent
 ./macos.sh                    # key repeat, dock, finder defaults
 ```
@@ -21,8 +21,8 @@ cd ~/mac-dotfiles
 ```sh
 sudo pacman -S --needed git github-cli yay   # yay comes from EndeavourOS's repo; on plain Arch, build it from the AUR
 gh auth login
-gh repo clone baljinnyamday/mac-dotfiles ~/mac-dotfiles
-cd ~/mac-dotfiles
+gh repo clone baljinnyamday/dotfiles ~/dotfiles
+cd ~/dotfiles
 ./install.sh --pacman --tools   # symlink configs, Pacfile (pacman + AUR), npm globals, VS Code extensions, then claude / uv / cursor-agent
 ```
 
