@@ -29,13 +29,8 @@
 	dark = true
 	line-numbers = true
 	syntax-theme = Catppuccin Mocha
-[gpg]
-	program = /opt/homebrew/bin/gpg
+# Per-OS paths (gpg, gh): install.sh links git/os-<os>.gitconfig here
+[include]
+	path = ~/.config/git/os.gitconfig
 [include]
 	path = ~/.gitconfig.local
-[credential "https://github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential

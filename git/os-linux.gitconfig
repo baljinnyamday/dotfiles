@@ -1,0 +1,8 @@
+# ~/.config/git/os.gitconfig on Linux -- symlinked from ~/mac-dotfiles/git/os-linux.gitconfig
+# gpg is found on PATH; gh comes from pacman (github-cli).
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
-# Symlinks every config in this repo into $HOME. Safe to re-run.
-#   ./install.sh          symlink configs
-#   ./install.sh --brew   also install everything in the Brewfile
-#   ./install.sh --tools  also install CLIs that ship their own installer (claude, uv, cursor-agent)
+# Symlinks every config in this repo into $HOME. Safe to re-run. Works on macOS and Arch Linux.
+#   ./install.sh           symlink configs
+#   ./install.sh --brew    macOS: also install everything in the Brewfile
+#   ./install.sh --pacman  Arch: also install everything in the Pacfile, plus the Brewfile's npm
+#                          globals and VS Code extensions (what `brew bundle` covers on macOS)
+#   ./install.sh --tools   also install CLIs that ship their own installer (claude, uv, cursor-agent)
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OS="$(uname -s)"
 
-BREW=0 TOOLS=0
+BREW=0 PACMAN=0 TOOLS=0
 for arg in "$@"; do
   case "$arg" in
-    --brew)  BREW=1 ;;
-    --tools) TOOLS=1 ;;
-    *) echo "usage: ./install.sh [--brew] [--tools]" >&2; exit 1 ;;
+    --brew)   BREW=1 ;;
+    --pacman) PACMAN=1 ;;
+    --tools)  TOOLS=1 ;;
+    *) echo "usage: ./install.sh [--brew | --pacman] [--tools]" >&2; exit 1 ;;
   esac
 done
 
@@ -31,17 +35,33 @@ link zsh/.zshrc               .zshrc
 link zsh/.zshenv              .zshenv
 link git/.gitconfig           .gitconfig
 link git/ignore               .config/git/ignore
-link aerospace/aerospace.toml .aerospace.toml
 link ghostty/config           .config/ghostty/config
-link cmux/cmux.json           .config/cmux/cmux.json
-link lazygit/config.yml       "Library/Application Support/lazygit/config.yml"
-link warp/settings.toml       .warp/settings.toml
 link starship/starship.toml   .config/starship.toml
 link tmux/.tmux.conf          .tmux.conf
 link nvim                     .config/nvim
 for script in "$REPO"/bin/*; do
   link "bin/${script##*/}" ".local/bin/${script##*/}"
 done
+
+if [ "$OS" = Darwin ]; then
+  link git/os-darwin.gitconfig  .config/git/os.gitconfig
+  link aerospace/aerospace.toml .aerospace.toml
+  link cmux/cmux.json           .config/cmux/cmux.json
+  link lazygit/config.yml       "Library/Application Support/lazygit/config.yml"
+  link warp/settings.toml       .warp/settings.toml
+else
+  link git/os-linux.gitconfig   .config/git/os.gitconfig
+  link lazygit/config.yml       .config/lazygit/config.yml
+  # pbcopy/pbpaste stand-ins and other Linux-only scripts
+  for script in "$REPO"/linux/bin/*; do
+    link "linux/bin/${script##*/}" ".local/bin/${script##*/}"
+  done
+  # Dark mode. Without a desktop environment nothing sets this, and Firefox and GTK4 apps read
+  # "no preference" from the desktop portal as light, whatever the GTK theme is.
+  if command -v gsettings >/dev/null; then
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark && echo "set       dark mode (color-scheme)"
+  fi
+fi
 
 if [ ! -f "$HOME/.gitconfig.local" ]; then
   printf '[user]\n\tname = Your Name\n\temail = you@example.com\n' > "$HOME/.gitconfig.local"
@@ -52,7 +72,33 @@ if [ "$BREW" = 1 ]; then
   brew bundle --file="$REPO/Brewfile"
 fi
 
-# Not in the Brewfile because they self-update through their own installers.
+if [ "$PACMAN" = 1 ]; then
+  # Pacfile: one package per line; lines after [aur] come from the AUR through yay.
+  pkgs() { sed 's/#.*//' "$REPO/Pacfile" | awk -v want="$1" '/^\[aur\]/ {aur=1; next} NF && aur==want {print $1}'; }
+  official=() aur=()
+  while read -r p; do official+=("$p"); done < <(pkgs 0)
+  while read -r p; do aur+=("$p"); done < <(pkgs 1)
+  sudo pacman -S --needed "${official[@]}"
+  if command -v yay >/dev/null; then
+    yay -S --needed "${aur[@]}"
+  else
+    echo "skipped AUR packages (install yay first): ${aur[*]}"
+  fi
+  # The rest of the Brewfile: npm globals and VS Code extensions. npm needs a Node it can write to
+  # (nvm's), not the system one in /usr.
+  if command -v npm >/dev/null && [ -w "$(npm config get prefix)" ]; then
+    npm install -g $(sed -n 's/^npm "\(.*\)"/\1/p' "$REPO/Brewfile") || echo "some npm installs failed; see above"
+  else
+    echo "skipped npm globals: no npm with a writable prefix (install Node with nvm, then re-run)"
+  fi
+  if command -v code >/dev/null; then
+    sed -n 's/^vscode "\(.*\)"/\1/p' "$REPO/Brewfile" | while read -r ext; do
+      code --install-extension "$ext" >/dev/null 2>&1 || echo "failed:   VS Code extension $ext"
+    done
+  fi
+fi
+
+# Not in the Brewfile/Pacfile because they self-update through their own installers.
 # All of them land in ~/.local/bin, which .zshrc already puts on PATH.
 tool() {
   if command -v "$1" >/dev/null || [ -x "$HOME/.local/bin/$1" ]; then

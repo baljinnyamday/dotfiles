@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
-# notify [msg] -- macOS notification banner + says it out loud. For long commands you walk away from.
+# notify [msg] -- desktop notification banner + says it out loud. For long commands you walk away from.
 #   pnpm build; notify                        "done", whatever happened
 #   pnpm build && notify built || notify failed   tells you which
 msg=${*:-done}
-osascript -e "display notification \"${msg//\"/\\\"}\" with title \"Terminal\""
-say -- "$msg"
+if [[ $OSTYPE == darwin* ]]; then
+  osascript -e "display notification \"${msg//\"/\\\"}\" with title \"Terminal\""
+  say -- "$msg"
+else
+  notify-send Terminal "$msg"
+  if command -v spd-say >/dev/null; then spd-say -- "$msg"; fi
+fi

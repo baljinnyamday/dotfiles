@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# stale -- list programs still running a binary or library that an update replaced. They keep
+# the old version until restarted, which is how a running app breaks after `yay -Syu` (the
+# new client can't talk to the old daemon). Restart what's listed, or reboot after big updates.
+set -euo pipefail
+for pid in /proc/[0-9]*; do
+  exe=$(readlink "$pid/exe" 2>/dev/null) || continue
+  if [[ $exe == *' (deleted)' ]] || grep -q '/usr/lib/.*(deleted)$' "$pid/maps" 2>/dev/null; then
+    printf '%s\t%s\n' "${pid#/proc/}" "${exe% (deleted)}"
+  fi
+done | sort -k2 | awk -F'\t' '{n[$2]++; p[$2]=p[$2] " " $1} END {for (e in n) printf "%-50s pid%s\n", e, p[e]}' | sort
+running=$(uname -r)
+if [[ ! -d /usr/lib/modules/$running ]]; then
+  echo "kernel: running $running, but it was replaced; reboot to load the new one"
+fi

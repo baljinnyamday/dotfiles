@@ -1,7 +1,9 @@
 # mac-dotfiles
 
 Every config here is symlinked into `$HOME`, so editing a dotfile in place
-edits this repo. Commit and push when you're done.
+edits this repo. Commit and push when you're done. Works on macOS and on Arch
+Linux (EndeavourOS, i3 on X11): `install.sh` links the shared configs on both
+and the OS-specific ones on each.
 
 ## Fresh Mac
 
@@ -14,7 +16,21 @@ cd ~/mac-dotfiles
 ./macos.sh                    # key repeat, dock, finder defaults
 ```
 
-Then fill in `~/.gitconfig.local` (name, email, signing key) and put any
+## Fresh Arch / EndeavourOS
+
+```sh
+sudo pacman -S --needed git github-cli yay   # yay comes from EndeavourOS's repo; on plain Arch, build it from the AUR
+gh auth login
+gh repo clone baljinnyamday/mac-dotfiles ~/mac-dotfiles
+cd ~/mac-dotfiles
+./install.sh --pacman --tools   # symlink configs, Pacfile (pacman + AUR), npm globals, VS Code extensions, then claude / uv / cursor-agent
+```
+
+`Pacfile` is the Brewfile's Arch counterpart; its header lists what was swapped
+or left out. The npm globals and VS Code extensions still come from the
+Brewfile, so those lists stay in one place.
+
+Both: fill in `~/.gitconfig.local` (name, email, signing key) and put any
 machine-specific env, such as a work package index or tokens, in
 `~/.zshrc.local`. Neither file is tracked.
 
@@ -23,18 +39,45 @@ machine-specific env, such as a work package index or tokens, in
 | Path | Linked to | Notes |
 |---|---|---|
 | `zsh/` | `~/.zshrc`, `~/.zshenv` | starship, zoxide, fzf, direnv, nvm, pnpm, bun, uv. Starts in ~0.1s: nvm loads on first use, completions rescan hourly (`rm ~/.zcompdump && reload` to force) |
-| `git/` | `~/.gitconfig`, `~/.config/git/ignore` | delta pager, zdiff3, identity from `~/.gitconfig.local` |
+| `git/` | `~/.gitconfig`, `~/.config/git/ignore`, `~/.config/git/os.gitconfig` | delta pager, zdiff3, identity from `~/.gitconfig.local`; gpg and gh paths from `os-darwin` / `os-linux.gitconfig` |
 | `aerospace/` | `~/.aerospace.toml` | i3-style tiling, see keys below |
 | `ghostty/` | `~/.config/ghostty/config` | Catppuccin Mocha, JetBrainsMono Nerd Font, drop-down quick terminal. cmux reads it too |
 | `cmux/` | `~/.config/cmux/cmux.json` | Warp-style vertical tabs on top of Ghostty, ctrl+tab cycles the sidebar, cmd+hjkl moves between splits |
 | `warp/` | `~/.warp/settings.toml` | vertical tabs, JetBrainsMono Nerd Font, Warp hot-reloads edits |
 | `starship/` | `~/.config/starship.toml` | gruvbox powerline prompt |
 | `tmux/` | `~/.tmux.conf` | no plugins, Catppuccin status bar on top, popups for lazygit/claude/sessions |
-| `lazygit/` | `~/Library/Application Support/lazygit/config.yml` | delta diffs, Cursor as editor, claude + gh custom commands |
+| `lazygit/` | `~/Library/Application Support/lazygit/config.yml`, Linux `~/.config/lazygit/config.yml` | delta diffs, Cursor as editor, claude + gh custom commands |
 | `nvim/` | `~/.config/nvim` | |
+| `linux/bin/` | `~/.local/bin/` (Linux) | `pbcopy` / `pbpaste` over xclip or wl-clipboard, so every `\| pbcopy` here works unchanged; `stale` lists apps still running binaries an update replaced |
+| `linux/keyd.conf` | `/etc/keyd/default.conf` (opt-in) | Caps Lock: tap Esc, hold Ctrl, see Linux extras |
 | `bin/` | `~/.local/bin/` | every file gets linked, so a new script only needs `./install.sh`. `claude-in <folder>` (new cmux tab, or a Ghostty window outside cmux), `link-agent-docs [dir]`, `tmux-sessionizer [dir]`, plus the longer commands listed in `zsh/ALIASES.md` (`cc*` pipeline, `ship`, `wrm`, fzf pickers) |
 | `Brewfile` | | refresh with `brew bundle dump --force --describe` |
+| `Pacfile` | | Arch packages, `./install.sh --pacman`; lines after `[aur]` go through yay |
 | `macos.sh` | | `defaults write` settings |
+
+## Linux extras
+
+i3 (in `~/.config/i3/config`) plays AeroSpace's part. On top of it:
+
+| Key / command | Action |
+|---|---|
+| super-enter | Ghostty, on the current workspace |
+| super-\` | drop-down Ghostty, an i3 scratchpad (Ghostty's own quick terminal needs Wayland) |
+| ctrl-shift-v | CopyQ clipboard history (Maccy) |
+| Print | flameshot: select an area, annotate, copy or save |
+| `sysup` | `yay -Syu`, remove orphans, then `stale` |
+| `stale` | apps still running replaced binaries: restart them, or reboot after big updates |
+| `caff [cmd]` | keep the machine awake (`systemd-inhibit`) |
+
+Opt-in, both need root:
+
+```sh
+# Caps Lock: tap for Esc, hold for Ctrl, in every app and the TTY
+sudo install -Dm644 linux/keyd.conf /etc/keyd/default.conf && sudo systemctl enable --now keyd
+# compressed swap in RAM (macOS compresses memory by default; without it a runaway build freezes the box)
+sudo pacman -S zram-generator && printf '[zram0]\nzram-size = ram / 4\n' | sudo tee /etc/systemd/zram-generator.conf \
+  && sudo systemctl daemon-reload && sudo systemctl start systemd-zram-setup@zram0
+```
 
 ## AeroSpace keys
 

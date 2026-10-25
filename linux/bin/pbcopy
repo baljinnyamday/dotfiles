@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# pbcopy -- macOS's pbcopy on Linux: stdin to the clipboard, so `| pbcopy` works the same on both.
+# Wayland uses wl-copy, X11 xclip.
+if [[ -n ${WAYLAND_DISPLAY:-} ]]; then exec wl-copy; fi
+exec xclip -selection clipboard -in

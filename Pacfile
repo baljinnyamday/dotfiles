@@ -1,0 +1,112 @@
+# Pacfile -- the Arch Linux counterpart of the Brewfile, installed with `./install.sh --pacman`.
+# One package per line. Lines above [aur] come from the official repos (pacman), lines below it
+# from the AUR (yay). The Brewfile's npm globals and VS Code extensions are installed from the
+# Brewfile itself, so those lists live in one place.
+#
+# Left out on purpose (macOS-only, or Linux already has it):
+#   aerospace -> i3          cmux, iterm2, warp -> ghostty + tmux      maccy -> copyq
+#   docker-desktop -> docker (native, no VM)    coreutils -> GNU is the default    duti -> xdg-mime
+#   mole -> paccache.timer (pacman-contrib)     xcodegen    neo4j-mcp (no Linux package)
+#   neofetch -> fastfetch (neofetch is unmaintained)
+#   llama.cpp -> ollama-vulkan (runs on the AMD GPU through Vulkan, no ROCm needed)
+
+# --- shell ---
+zsh
+zsh-autosuggestions
+zsh-syntax-highlighting
+starship
+zoxide
+fzf
+direnv
+eza
+bat
+
+# --- git ---
+git
+git-delta
+git-filter-repo
+github-cli
+gitleaks
+difftastic
+lazygit
+
+# --- search, text, data ---
+ripgrep
+fd
+sd
+jq
+go-yq
+ast-grep
+
+# --- terminal, editor, font ---
+ghostty
+tmux
+neovim
+ttf-jetbrains-mono-nerd
+
+# --- languages and build tools ---
+python
+nvm                    # Node versions; .zshrc puts the default on PATH without loading nvm
+go
+llvm
+clang
+maven
+just
+watchexec
+hyperfine
+postgresql-libs        # libpq
+libsndfile
+
+# --- cloud and AI CLIs ---
+aws-cli-v2
+azure-cli
+gemini-cli
+ollama-vulkan
+
+# --- media, PDF, LaTeX ---
+ffmpeg
+ghostscript
+poppler
+qpdf
+qrencode
+yt-dlp
+texlive-basic          # basictex
+texlive-binextra       # latexindent
+
+# --- network and security ---
+mosh
+wget
+nikto
+
+# --- system ---
+ncdu
+fastfetch
+btop
+nvtop                  # GPU monitor; reads the AMD card on Linux
+xclip                  # clipboard for pbcopy/pbpaste (linux/bin)
+libnotify              # notify-send, used by bin/notify
+lsof
+pacman-contrib         # paccache.timer keeps the package cache small (mole/brew cleanup)
+
+# --- containers ---
+docker
+docker-compose
+docker-buildx
+
+# --- desktop (i3) ---
+copyq                  # clipboard history (Maccy)
+flameshot              # area screenshots with annotation
+keyd                   # key remapping in the kernel: see linux/keyd.conf
+
+# --- apps ---
+discord
+steam                  # needs [multilib] in /etc/pacman.conf
+
+[aur]
+k6-bin
+rtk-bin
+trufflehog-bin
+ngrok
+slack-desktop
+zoom
+github-copilot-cli

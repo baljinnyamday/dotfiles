@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# pbpaste -- macOS's pbpaste on Linux: the clipboard to stdout.
+if [[ -n ${WAYLAND_DISPLAY:-} ]]; then exec wl-paste --no-newline; fi
+exec xclip -selection clipboard -out

@@ -2,11 +2,13 @@
 
 Reference for everything in `zsh/aliases.zsh`, the command scripts in `bin/`, and the couple of one-offs in `zsh/.zshrc`. Keep this in sync whenever they change — see the note at the bottom.
 
+**Names:** never reuse a command that exists (`cc`, `pr`, `gs` are taken on both OSes, `ip` on Linux); an alias only changes what you type, but it hides the real command from you. `ls` and `python` are the exceptions: same command, better defaults.
+
 **Where a new command goes:** one-line shortcut → alias in `aliases.zsh`. Needs to `cd` or `export` in your current shell → function in `aliases.zsh` (a script runs in its own process and can't). Anything longer → executable script in `bin/`, then `./install.sh` to link it into `~/.local/bin`. Scripts also work from bash, other scripts, tmux/cmux keybindings and agents. Code the `cc*` scripts share (worktree creation, opening a cmux/tmux tab, the agy model lookup, plan naming) lives in `lib/cc.sh`, outside `bin/` so it doesn't land on your PATH.
 
 ## Claude Code: quick headless one-offs
 
-- `cc` — alias for `claude`
+- `cla` — alias for `claude` (not `cc`, which is the C compiler)
 - `ccmsg` — drafts a commit message from your staged diff (`git diff --staged` piped in)
 - `ccf [pytest args]` — runs `uv run pytest` and has Claude fix the failures right in your checkout, then re-run the tests to confirm (does nothing if they already pass). Or pipe in output from anything else: `uv run mypy . |& ccf`, `pnpm build |& ccf` (`|&` also pipes stderr, where most tools print their errors; plain `|` would leave `ccf` with nothing). Headless with `--permission-mode auto`, so you only see Claude's summary at the end; review the changes with `lg`
 - `ccstandup [since]` — your commits since `since` (default yesterday; `"last friday"` on a Monday) from the repo you're in, or every repo under `~/coding` and `~/repos` when outside one, plus uncommitted work, turned into a plain-words standup: yesterday / today (guessed from what's uncommitted) / blockers. `ccstandup C` copies it for Slack
@@ -100,7 +102,7 @@ Don't run a local tmux inside cmux: cmux sees the whole tmux as one terminal, so
 
 - macOS: `flushdns`, `o` (open .), `ql` (quicklook), `ip`, `pubip`, `cpwd` (copy pwd), `dsclean` (delete .DS_Store), `brewup`
 - dev workflow: `killport [-f] <port>` (TERM the listener, `-f` for KILL), `port <port>`, `listening`, `json`/`jsonc` (pbpaste through jq)
-- docker/pnpm: `dps`, `dpsa`, `dcu`, `dcd`, `dcl`, `pr` (pnpm run)
+- docker/pnpm: `dps`, `dpsa`, `dcu`, `dcd`, `dcl`, `pnr` (pnpm run)
 - zsh niceties: global aliases that expand anywhere on the line: `G` (`| grep -i`), `C` (`| pbcopy`, copy the output), `J` (`| jq .`, pretty-print JSON); suffix aliases opening `json/yaml/yml/toml/md/txt` in `bat` and `ts/tsx/js/py/go/rs` in `cursor`
 
 ---

@@ -3,15 +3,24 @@
 # Anything longer is a script in ../bin (linked into ~/.local/bin by install.sh), so it also
 # works from bash, other scripts, tmux/cmux keybindings and agents.
 
-# --- macOS ---
-alias flushdns='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
-alias o='open .'
-alias ql='qlmanage -p &>/dev/null'
-alias ip='ipconfig getifaddr en0'
+# --- OS ---
+# pbcopy/pbpaste work on both: on Linux they're scripts in ../linux/bin over xclip / wl-clipboard.
+if [[ $OSTYPE == darwin* ]]; then
+  alias flushdns='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+  alias o='open .'
+  alias ql='qlmanage -p &>/dev/null'
+  alias ip='ipconfig getifaddr en0'
+  alias dsclean='fd -H -I "^\.DS_Store$" -x rm'
+  alias brewup='brew update && brew upgrade && brew cleanup && brew doctor'
+else
+  alias ls='ls --color=auto'
+  alias o='xdg-open . &>/dev/null &!'
+  alias lanip='ip -4 -o route get 1.1.1.1 | awk "{print \$7}"'   # `ip` itself stays iproute2
+  # sysup: upgrade repo + AUR packages, drop orphans, then list apps still running replaced binaries
+  alias sysup='yay -Syu && yay -Yc && stale'
+fi
 alias pubip='curl -s ifconfig.me && echo'
 alias cpwd='pwd | tr -d "\n" | pbcopy'
-alias dsclean='fd -H -I "^\.DS_Store$" -x rm'
-alias brewup='brew update && brew upgrade && brew cleanup && brew doctor'
 
 # --- dev workflow ---
 # killport [-f] <port>: TERM whatever is listening on the port so it can shut down cleanly;
@@ -36,10 +45,14 @@ alias dpsa='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Image}}"'
 alias dcu='docker compose up -d'
 alias dcd='docker compose down'
 alias dcl='docker compose logs -f --tail 100'
-alias pr='pnpm run'
+alias pnr='pnpm run'
 
 # --- terminals: cmux is the main one, Ghostty is the lightweight fallback ---
-alias ghost='open -na Ghostty --args --working-directory="$PWD"'   # plain Ghostty window in this folder
+if [[ $OSTYPE == darwin* ]]; then
+  alias ghost='open -na Ghostty --args --working-directory="$PWD"'   # plain Ghostty window in this folder
+else
+  alias ghost='ghostty --working-directory="$PWD" &>/dev/null &!'
+fi
 
 # --- project switching: cmux workspaces inside cmux, tmux sessions elsewhere ---
 alias ts='sessionizer'                           # fzf-pick a project, jump to its workspace/session
@@ -58,9 +71,10 @@ ccj()    { claude -p "$1" --output-format json | jq -r '.result'; }
 # Enter runs it, Ctrl-C drops it, or edit first. noglob keeps `*.ts` and a trailing `?` literal.
 alias '??'='noglob ccsh'
 ccsh() {
-  local cmd
+  local cmd os="macOS with Homebrew"
+  [[ $OSTYPE == darwin* ]] || os="$(. /etc/os-release && echo "$PRETTY_NAME") with pacman/yay${XDG_CURRENT_DESKTOP:+, $XDG_CURRENT_DESKTOP on $XDG_SESSION_TYPE}"
   cmd=$(claude -p --tools "" --no-session-persistence --output-format text \
-    --system-prompt "You write zsh one-liners for macOS with Homebrew. Prefer rg, fd, eza, bat, sd, jq, yq when they fit. Reply with the command only: no backticks, no explanation." \
+    --system-prompt "You write zsh one-liners for $os. Prefer rg, fd, eza, bat, sd, jq, yq when they fit. Reply with the command only: no backticks, no explanation." \
     "$*" </dev/null) || return 1
   print -z -- "$cmd"
 }

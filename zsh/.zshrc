@@ -4,17 +4,21 @@
 
 # --- PATH ---
 typeset -U path fpath                         # drop duplicate entries
-# .zprofile already runs this for login shells; only needed for non-login shells
-[[ -z $HOMEBREW_PREFIX && -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ $OSTYPE == darwin* ]]; then
+  # .zprofile already runs this for login shells; only needed for non-login shells
+  [[ -z $HOMEBREW_PREFIX && -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+  export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
 export PATH="$HOME/.local/bin:$PATH"          # uv, claude, cursor-agent, own scripts
 export PATH="$HOME/.opencode/bin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -33,8 +37,15 @@ export NVM_DIR="$HOME/.nvm"
 }
 nvm() {
   unfunction nvm
-  . "/opt/homebrew/opt/nvm/nvm.sh"
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  # Homebrew, a git clone in ~/.nvm, or the AUR package
+  local dir
+  for dir in /opt/homebrew/opt/nvm $NVM_DIR /usr/share/nvm; do
+    [[ -s $dir/nvm.sh ]] || continue
+    . "$dir/nvm.sh"
+    [ -s "$dir/etc/bash_completion.d/nvm" ] && . "$dir/etc/bash_completion.d/nvm"
+    [ -s "$dir/bash_completion" ] && . "$dir/bash_completion"
+    break
+  done
   nvm "$@"
 }
 
@@ -58,6 +69,25 @@ autoload -Uz compinit
   if [[ -n $dump(#qN.mm+60) ]]; then compinit && touch $dump; else compinit -C; fi
 }
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# --- Keys ---
+# PC-keyboard keys zsh leaves unbound (Home, End, Delete, ctrl+arrows), and Up/Down that search
+# history for what's already typed. Each key lists the codes xterm-style terminals send for it.
+# Sits before the autosuggestions plugin, which wraps whatever widgets exist when it loads.
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+() {
+  local -A keys=(
+    '^[[A' up-line-or-beginning-search    '^[OA' up-line-or-beginning-search
+    '^[[B' down-line-or-beginning-search  '^[OB' down-line-or-beginning-search
+    '^[[H' beginning-of-line  '^[OH' beginning-of-line  '^[[1~' beginning-of-line   # Home
+    '^[[F' end-of-line        '^[OF' end-of-line        '^[[4~' end-of-line         # End
+    '^[[3~' delete-char       '^[[3;5~' kill-word                                   # Delete, ctrl+Delete
+    '^[[1;5C' forward-word    '^[[1;5D' backward-word                               # ctrl+right / left
+  )
+  local k; for k in ${(k)keys}; do bindkey -M emacs "$k" "${keys[$k]}"; done
+}
 
 # --- Shell tools ---
 # Prompt lead icon: a duck, or a poop when the last command failed.
@@ -92,11 +122,16 @@ alias lt="eza -la --icons --sort=age"
 alias tree="eza --tree --icons"
 alias bta="bat"
 alias lg="lazygit"
-alias gs="git status"
+alias gst="git status"
 alias gp="git push"
 alias python="python3"
-alias caff="caffeinate -i"
-alias cc="claude"
+if [[ $OSTYPE == darwin* ]]; then
+  alias caff="caffeinate -i"
+else
+  # caff [cmd...]: keep the machine awake while cmd runs, or until Ctrl-C
+  caff() { (( $# )) || set -- sleep infinity; systemd-inhibit --what=idle:sleep --why=caff "$@"; }
+fi
+alias cla="claude"
 alias zconfig="cursor ~/.zshrc"
 alias reload="source ~/.zshrc"
 source "${${(%):-%x}:A:h}/aliases.zsh"   # next to the real .zshrc, wherever the repo is cloned
@@ -107,16 +142,23 @@ source "${${(%):-%x}:A:h}/aliases.zsh"   # next to the real .zshrc, wherever the
 # keystroke that has no history match, which is what made typing feel laggy.
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1   # bind widgets once, not before every prompt
-[ -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
-  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# Homebrew keeps zsh plugins in $HOMEBREW_PREFIX/share/<plugin>, Arch in /usr/share/zsh/plugins/<plugin>
+_zsh_plugin() {
+  local dir
+  for dir in ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share} /usr/share/zsh/plugins; do
+    [ -f "$dir/$1/$1.zsh" ] && { source "$dir/$1/$1.zsh"; return; }
+  done
+}
+_zsh_plugin zsh-autosuggestions
 
 # --- Syntax highlighting: green = command exists, red = it doesn't, underlined = path exists ---
 # Must be sourced after every other plugin, which is why it sits here.
 ZSH_HIGHLIGHT_MAXLENGTH=300   # it re-parses the whole line per keystroke; skip huge pastes
-[ -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
-  source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+_zsh_plugin zsh-syntax-highlighting
+unfunction _zsh_plugin
 
 # Run a command on launch: open --env AUTORUN=claude -na Ghostty --args --working-directory=DIR
+# (Linux: AUTORUN=claude ghostty --working-directory=DIR)
 [[ -n "$AUTORUN" ]] && { cmd="$AUTORUN"; unset AUTORUN; eval "$cmd"; }
 
 # --- Machine-specific overrides (not tracked) ---
