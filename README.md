@@ -55,7 +55,7 @@ machine-specific env, such as a work package index or tokens, in
 | `linux/copyq/` | `~/.config/copyq/` (copied once, not linked) | CopyQ settings and commands, incl. the ctrl-shift-v menu. History stays local |
 | `linux/bin/` | `~/.local/bin/` (Linux) | `pbcopy` / `pbpaste` over xclip or wl-clipboard, so every `\| pbcopy` here works unchanged; `stale` lists apps still running binaries an update replaced |
 | `linux/keyd.conf` | `/etc/keyd/default.conf` (opt-in) | Caps Lock: tap Esc, hold Ctrl, see Linux extras |
-| `linux/xorg-keyrepeat.conf` | `/etc/X11/xorg.conf.d/10-keyrepeat.conf` (copied with sudo) | key repeat matching `macos.sh`: 250 ms, then 60 a second |
+| `linux/xorg-keyrepeat.conf` | `/etc/X11/xorg.conf.d/10-keyrepeat.conf` (copied with sudo) | key repeat: 250 ms (25% longer than `macos.sh`), then 60 a second like it |
 | `bin/` | `~/.local/bin/` | every file gets linked, so a new script only needs `./install.sh`. `claude-in <folder>` (new cmux tab, or a Ghostty window outside cmux), `link-agent-docs [dir]`, `tmux-sessionizer [dir]`, plus the longer commands listed in `zsh/ALIASES.md` (`cc*` pipeline, `ship`, `wrm`, fzf pickers) |
 | `Brewfile` | | refresh with `brew bundle dump --force --describe` |
 | `Pacfile` | | Arch packages, `./install.sh --pacman`; lines after `[aur]` go through yay |
