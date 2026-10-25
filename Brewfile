@@ -123,8 +123,6 @@ cask "aerospace"
 cask "basictex"
 # Ghostty-based terminal with vertical tabs and agent notifications
 cask "cmux"
-# Brings the power of Copilot coding agent directly to your terminal
-cask "copilot-cli"
 # Voice and text chat software
 cask "discord"
 # App to build and share containerised applications and microservices
@@ -165,7 +163,6 @@ vscode "ecmel.vscode-html-css"
 vscode "esbenp.prettier-vscode"
 vscode "formulahendry.code-runner"
 vscode "github.codespaces"
-vscode "github.copilot-chat"
 vscode "github.vscode-github-actions"
 vscode "google.gemini-cli-vscode-ide-companion"
 vscode "google.geminicodeassist"

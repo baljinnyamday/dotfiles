@@ -9,6 +9,7 @@
 #   mole -> paccache.timer (pacman-contrib)     xcodegen    neo4j-mcp (no Linux package)
 #   neofetch -> fastfetch (neofetch is unmaintained)
 #   llama.cpp -> ollama-vulkan (runs on the AMD GPU through Vulkan, no ROCm needed)
+#   copilot-cli -> dropped: Claude Code and Cursor do that job
 
 # --- shell ---
 zsh
@@ -144,4 +145,3 @@ trufflehog-bin
 ngrok
 slack-desktop
 zoom
-github-copilot-cli

@@ -101,8 +101,12 @@ if [ "$PACMAN" = 1 ]; then
   while read -r p; do official+=("$p"); done < <(pkgs 0)
   while read -r p; do aur+=("$p"); done < <(pkgs 1)
   sudo pacman -S --needed "${official[@]}"
+  # --needed leaves a package that was already pulled in as a dependency marked as one, so an
+  # orphan cleanup (`yay -Yc`, part of sysup) would remove it once nothing depends on it.
+  sudo pacman -D --asexplicit --quiet "${official[@]}"
   if command -v yay >/dev/null; then
     yay -S --needed "${aur[@]}"
+    sudo pacman -D --asexplicit --quiet "${aur[@]}"
   else
     echo "skipped AUR packages (install yay first): ${aur[*]}"
   fi
