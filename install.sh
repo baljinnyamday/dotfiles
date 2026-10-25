@@ -51,6 +51,7 @@ if [ "$OS" = Darwin ]; then
   link warp/settings.toml       .warp/settings.toml
 else
   link git/os-linux.gitconfig   .config/git/os.gitconfig
+  link ghostty/linux.conf      .config/ghostty/os.conf
   link lazygit/config.yml       .config/lazygit/config.yml
   # The i3 desktop: AeroSpace's counterpart, plus its launcher, notifications and session env
   link linux/i3                 .config/i3

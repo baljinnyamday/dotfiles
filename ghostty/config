@@ -53,3 +53,6 @@ quick-terminal-animation-duration = 0.15
 keybind = super+shift+r=prompt_tab_title
 keybind = super+shift+arrow_left=move_tab:-1
 keybind = super+shift+arrow_right=move_tab:1
+
+# --- per-OS overrides: install.sh links ghostty/linux.conf here on Linux ---
+config-file = ?os.conf
