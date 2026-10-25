@@ -3,6 +3,7 @@
 # keyboard settings to take effect.
 set -euo pipefail
 
+# Apple doesn't document the unit; linux/xorg-keyrepeat.conf reads it as 1/60 s ticks (200 ms, then 60/s).
 defaults write -g KeyRepeat -int 1
 defaults write -g InitialKeyRepeat -int 12
 defaults write com.apple.dock autohide -bool true

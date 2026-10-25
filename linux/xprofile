@@ -1,0 +1,5 @@
+# Sourced by LightDM when the X session starts, so everything i3 launches inherits it.
+
+# Qt apps (CopyQ, flameshot, ...) take their colours from the GTK theme (Arc-Dark), so they're
+# dark like the rest. GTK and Firefox follow the color-scheme gsetting instead.
+export QT_QPA_PLATFORMTHEME=gtk3

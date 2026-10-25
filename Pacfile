@@ -93,7 +93,36 @@ docker
 docker-compose
 docker-buildx
 
-# --- desktop (i3) ---
+# --- desktop (i3): everything linux/i3, its scripts and the session need ---
+i3-wm
+i3blocks
+i3lock                 # blur-lock
+lightdm                # login screen (autologin into i3)
+rofi                   # launcher, power menu, keyhint
+dunst                  # notifications
+feh                    # wallpaper
+dex                    # starts ~/.config/autostart entries
+polkit-gnome           # password prompts for GUI apps
+network-manager-applet
+thunar
+playerctl
+alsa-utils
+libpulse               # pactl, for the volume script
+power-profiles-daemon
+acpi
+sysstat                # mpstat, for the cpu script
+lm_sensors
+imagemagick            # blur-lock
+maim                   # screenshots to the clipboard
+scrot                  # Shift+Print full-screen screenshot
+xdotool                # active-window screenshot
+xorg-xset
+xorg-setxkbmap
+xorg-xinput
+xorg-xrandr
+xorg-xbacklight
+arc-gtk-theme-eos      # Arc-Dark, from EndeavourOS's repo (plain Arch: arc-gtk-theme from the AUR)
+nwg-look               # GTK theme picker; writes linux/gtk/*.ini through the symlinks
 copyq                  # clipboard history (Maccy)
 flameshot              # area screenshots with annotation
 keyd                   # key remapping in the kernel: see linux/keyd.conf
@@ -103,6 +132,7 @@ discord
 steam                  # needs [multilib] in /etc/pacman.conf
 
 [aur]
+google-chrome          # $mod+w
 k6-bin
 rtk-bin
 trufflehog-bin

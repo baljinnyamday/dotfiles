@@ -48,8 +48,14 @@ machine-specific env, such as a work package index or tokens, in
 | `tmux/` | `~/.tmux.conf` | no plugins, Catppuccin status bar on top, popups for lazygit/claude/sessions |
 | `lazygit/` | `~/Library/Application Support/lazygit/config.yml`, Linux `~/.config/lazygit/config.yml` | delta diffs, Cursor as editor, claude + gh custom commands |
 | `nvim/` | `~/.config/nvim` | |
+| `linux/i3/` | `~/.config/i3` (Linux) | i3 + i3blocks + their scripts: AeroSpace's part, see Linux extras |
+| `linux/rofi/`, `linux/dunst/` | `~/.config/rofi`, `~/.config/dunst/dunstrc` | launcher / power menu, notifications |
+| `linux/xprofile`, `linux/xinitrc` | `~/.xprofile`, `~/.xinitrc` | session env read by LightDM (Qt apps follow the GTK theme); `xinitrc` only for `startx` |
+| `linux/gtk/` | `~/.config/gtk-{3,4}.0/settings.ini` | Arc-Dark; nwg-look edits these through the symlinks. Dark mode itself is the `color-scheme` gsetting, set by install.sh |
+| `linux/copyq/` | `~/.config/copyq/` (copied once, not linked) | CopyQ settings and commands, incl. the ctrl-shift-v menu. History stays local |
 | `linux/bin/` | `~/.local/bin/` (Linux) | `pbcopy` / `pbpaste` over xclip or wl-clipboard, so every `\| pbcopy` here works unchanged; `stale` lists apps still running binaries an update replaced |
 | `linux/keyd.conf` | `/etc/keyd/default.conf` (opt-in) | Caps Lock: tap Esc, hold Ctrl, see Linux extras |
+| `linux/xorg-keyrepeat.conf` | `/etc/X11/xorg.conf.d/10-keyrepeat.conf` (copied with sudo) | key repeat matching `macos.sh`: 200 ms, then 60 a second |
 | `bin/` | `~/.local/bin/` | every file gets linked, so a new script only needs `./install.sh`. `claude-in <folder>` (new cmux tab, or a Ghostty window outside cmux), `link-agent-docs [dir]`, `tmux-sessionizer [dir]`, plus the longer commands listed in `zsh/ALIASES.md` (`cc*` pipeline, `ship`, `wrm`, fzf pickers) |
 | `Brewfile` | | refresh with `brew bundle dump --force --describe` |
 | `Pacfile` | | Arch packages, `./install.sh --pacman`; lines after `[aur]` go through yay |
@@ -57,11 +63,12 @@ machine-specific env, such as a work package index or tokens, in
 
 ## Linux extras
 
-i3 (in `~/.config/i3/config`) plays AeroSpace's part. On top of it:
+i3 (`linux/i3/config`) plays AeroSpace's part. On top of EndeavourOS's i3 defaults:
 
 | Key / command | Action |
 |---|---|
-| super-enter | Ghostty, on the current workspace |
+| super-enter | Ghostty, on the current workspace (xfce4-terminal until Ghostty is installed) |
+| super-w | Chrome |
 | super-\` | drop-down Ghostty, an i3 scratchpad (Ghostty's own quick terminal needs Wayland) |
 | ctrl-shift-v | CopyQ clipboard history (Maccy) |
 | Print | flameshot: select an area, annotate, copy or save |
@@ -78,6 +85,20 @@ sudo install -Dm644 linux/keyd.conf /etc/keyd/default.conf && sudo systemctl ena
 sudo pacman -S zram-generator && printf '[zram0]\nzram-size = ram / 4\n' | sudo tee /etc/systemd/zram-generator.conf \
   && sudo systemctl daemon-reload && sudo systemctl start systemd-zram-setup@zram0
 ```
+
+**Per machine, not in the repo:** `~/.gitconfig.local`, `~/.zshrc.local`, the wallpaper
+(`~/Desktop/mt1.jpg`), the monitor layout `~/.screenlayout/monitor.sh` (make it with arandr), and the
+mouse name in the `xinput` line of `linux/i3/config` (`xinput list` shows yours).
+
+**Updating EndeavourOS** (learned the hard way on a year-old install):
+
+- After a big `sysup`, run `stale` and restart what it lists, or reboot. An app still running its old
+  binary can break against the new one: CopyQ's ctrl-shift-v menu hung until it was restarted.
+- Don't blindly accept these `.pacnew` files, they'd drop local setup: `pacman.conf` ([endeavouros] and
+  [multilib] repos), `locale.gen` (en_US, mn_MN), `lightdm.conf` (i3 session, autologin), `hosts`.
+  Merge by hand instead of `pacdiff`.
+- Read the AUR diff before building; the AUR has had malicious uploads. `slack` there is an unrelated
+  CLI: the app is `slack-desktop`.
 
 ## AeroSpace keys
 

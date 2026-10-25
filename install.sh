@@ -52,6 +52,21 @@ if [ "$OS" = Darwin ]; then
 else
   link git/os-linux.gitconfig   .config/git/os.gitconfig
   link lazygit/config.yml       .config/lazygit/config.yml
+  # The i3 desktop: AeroSpace's counterpart, plus its launcher, notifications and session env
+  link linux/i3                 .config/i3
+  link linux/rofi               .config/rofi
+  link linux/dunst/dunstrc      .config/dunst/dunstrc
+  link linux/xprofile           .xprofile
+  link linux/xinitrc            .xinitrc
+  link linux/gtk/gtk-3.0-settings.ini .config/gtk-3.0/settings.ini
+  link linux/gtk/gtk-4.0-settings.ini .config/gtk-4.0/settings.ini
+  # CopyQ rewrites its config by replacing the file, which would turn a symlink into a plain copy,
+  # so it's seeded once instead: the Ctrl+Shift+V history menu and the other commands.
+  for f in copyq.conf copyq-commands.ini; do
+    if [ ! -e "$HOME/.config/copyq/$f" ]; then
+      install -Dm644 "$REPO/linux/copyq/$f" "$HOME/.config/copyq/$f" && echo "copied    ~/.config/copyq/$f"
+    fi
+  done
   # pbcopy/pbpaste stand-ins and other Linux-only scripts
   for script in "$REPO"/linux/bin/*; do
     link "linux/bin/${script##*/}" ".local/bin/${script##*/}"
@@ -60,6 +75,13 @@ else
   # "no preference" from the desktop portal as light, whatever the GTK theme is.
   if command -v gsettings >/dev/null; then
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark && echo "set       dark mode (color-scheme)"
+  fi
+  # Key repeat matching macos.sh. X reads its config only from /etc, so this one is copied with sudo,
+  # and only when it changed; it takes effect at the next login.
+  keyrepeat=/etc/X11/xorg.conf.d/10-keyrepeat.conf
+  if ! cmp -s "$REPO/linux/xorg-keyrepeat.conf" "$keyrepeat"; then
+    sudo install -Dm644 "$REPO/linux/xorg-keyrepeat.conf" "$keyrepeat" && echo "installed $keyrepeat (log out and back in)" \
+      || echo "skipped   $keyrepeat (needs sudo)"
   fi
 fi
 
