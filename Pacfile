@@ -138,7 +138,8 @@ discord
 steam                  # needs [multilib] in /etc/pacman.conf
 
 [aur]
-google-chrome          # $mod+w
+google-chrome          # web apps: $mod+Shift+y/m/o/a
+zen-browser-bin        # $mod+w, the default browser
 k6-bin
 rtk-bin
 trufflehog-bin

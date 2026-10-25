@@ -3,3 +3,6 @@
 # Qt apps (CopyQ, flameshot, ...) take their colours from the GTK theme (Arc-Dark), so they're
 # dark like the rest. GTK and Firefox follow the color-scheme gsetting instead.
 export QT_QPA_PLATFORMTHEME=gtk3
+
+# Terminal tools (gh, git, python webbrowser) read $BROWSER. This overrides BROWSER=firefox from /etc/environment.
+export BROWSER=zen-browser

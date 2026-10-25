@@ -77,6 +77,19 @@ else
   if command -v gsettings >/dev/null; then
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark && echo "set       dark mode (color-scheme)"
   fi
+  # Zen is the default browser. Its shortcuts (Ctrl+B compact mode, Ctrl+S bookmarks, Ctrl+1-9 tabs)
+  # live in a profile folder with a random name, which Zen makes the first time it opens.
+  if command -v zen-browser >/dev/null; then
+    xdg-mime default zen.desktop text/html application/xhtml+xml x-scheme-handler/http x-scheme-handler/https \
+      && echo "set       default browser (Zen)"
+    zen_ini="$HOME/.config/zen/installs.ini"
+    if [ -f "$zen_ini" ]; then
+      zen_profile=$(awk -F= '/^Default=/ {print $2; exit}' "$zen_ini")
+      link linux/zen/zen-keyboard-shortcuts.json ".config/zen/$zen_profile/zen-keyboard-shortcuts.json"
+    else
+      echo "skipped   Zen shortcuts (open Zen once, then re-run)"
+    fi
+  fi
   # Key repeat matching macos.sh. X reads its config only from /etc, so this one is copied with sudo,
   # and only when it changed; it takes effect at the next login.
   keyrepeat=/etc/X11/xorg.conf.d/10-keyrepeat.conf

@@ -284,7 +284,12 @@ bindsym XF86AudioPrev exec playerctl previous
 #bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
-bindsym $mod+w exec google-chrome-stable
+bindsym $mod+w exec zen-browser
+# web apps: a site in its own Chrome window, no tabs or address bar (same profile, so already logged in)
+bindsym $mod+Shift+y exec google-chrome-stable --app=https://www.youtube.com
+bindsym $mod+Shift+m exec google-chrome-stable --app=https://mail.google.com
+bindsym $mod+Shift+o exec google-chrome-stable --app=https://outlook.office.com/mail/
+bindsym $mod+Shift+a exec google-chrome-stable --app=https://claude.ai
 bindsym $mod+n exec /usr/bin/thunar
 # Print: select an area, annotate it, then copy or save (flameshot). Shift+Print: whole screen to ~
 bindsym Print exec --no-startup-id flameshot gui

@@ -68,13 +68,15 @@ i3 (`linux/i3/config`) plays AeroSpace's part. On top of EndeavourOS's i3 defaul
 | Key / command | Action |
 |---|---|
 | super-enter | Ghostty, on the current workspace (xfce4-terminal until Ghostty is installed) |
-| super-w | Chrome |
+| super-w | Zen, the default browser (Chrome is kept for the web-app keys) |
 | super-\` | drop-down Ghostty, an i3 scratchpad (Ghostty's own quick terminal needs Wayland) |
 | ctrl-shift-v | CopyQ clipboard history (Maccy) |
 | Print | flameshot: select an area, annotate, copy or save |
 | `sysup` | `yay -Syu`, remove orphans, then `stale` |
 | `stale` | apps still running replaced binaries: restart them, or reboot after big updates |
 | `caff [cmd]` | keep the machine awake (`systemd-inhibit`) |
+
+Zen's shortcuts are linked from `linux/zen/`: ctrl-b compact mode (hides the sidebar), ctrl-s bookmarks sidebar, ctrl-1…9 tabs. Change them in Zen's settings and the repo file changes too. Add-ons, bookmarks and passwords aren't in the repo: sign in to a Mozilla account in Zen to sync them.
 
 Opt-in, both need root:
 
