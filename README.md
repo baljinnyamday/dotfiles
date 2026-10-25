@@ -88,7 +88,8 @@ sudo pacman -S zram-generator && printf '[zram0]\nzram-size = ram / 4\n' | sudo 
   && sudo systemctl daemon-reload && sudo systemctl start systemd-zram-setup@zram0
 ```
 
-**Per machine, not in the repo:** `~/.gitconfig.local`, `~/.zshrc.local`, the wallpaper
+**Per machine, not in the repo:** `~/.gitconfig.local`, `~/.zshrc.local`, `~/.XCompose` (Caps Lock
+text snippets like your email; this repo is public), the wallpaper
 (`~/Desktop/mt1.jpg`), the monitor layout `~/.screenlayout/monitor.sh` (make it with arandr), and the
 mouse name in the `xinput` line of `linux/i3/config` (`xinput list` shows yours).
 
