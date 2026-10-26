@@ -10,6 +10,7 @@
 #   neofetch -> fastfetch (neofetch is unmaintained)
 #   llama.cpp -> ollama-vulkan (runs on the AMD GPU through Vulkan, no ROCm needed)
 #   copilot-cli -> dropped: Claude Code and Cursor do that job
+#   notion, linear -> the web apps in Zen or Chrome (neither ships a Linux app)
 
 # --- shell ---
 zsh
@@ -137,12 +138,15 @@ lib32-vulkan-radeon
 
 # --- apps ---
 discord
+obsidian
+zed
 steam                  # needs [multilib] in /etc/pacman.conf
 
 [aur]
 google-chrome          # web apps: $mod+Shift+y/m/o/a
 zen-browser-bin        # $mod+w, the default browser
 localsend-bin          # AirDrop between this PC and the Mac
+1password              # packaged by 1Password itself
 k6-bin
 rtk-bin
 trufflehog-bin
