@@ -14,12 +14,22 @@ brew "awscli"
 brew "azure-cli"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Container runtimes on MacOS (and Linux) with minimal setup
+brew "colima"
 # GNU File, Shell, and Text utilities
 brew "coreutils"
 # Diff that understands syntax
 brew "difftastic"
 # Load/unload environment variables based on $PWD
 brew "direnv"
+# Pack, ship and run any application as a lightweight container
+brew "docker"
+# Docker CLI plugin for extended build capabilities with BuildKit
+brew "docker-buildx"
+# Isolated development environments using Docker
+brew "docker-compose"
+# Platform keystore credential helper for Docker
+brew "docker-credential-helper"
 # Select default apps for documents and URL schemes on macOS
 brew "duti"
 # Modern, maintained replacement for ls
@@ -150,8 +160,6 @@ cask "ngrok"
 cask "notion"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
-# Replacement for Docker Desktop
-cask "orbstack"
 # Team communication and collaboration software
 cask "slack"
 # Video game digital distribution service

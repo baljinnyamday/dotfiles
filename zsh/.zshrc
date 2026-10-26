@@ -115,8 +115,8 @@ export EDITOR="cursor --wait"
 export BAT_THEME="Catppuccin Mocha"   # bat ships it; delta gets the same theme from ~/.gitconfig
 export VISUAL="$EDITOR"
 
-# OrbStack socket (docker-py / testcontainers default to /var/run/docker.sock)
-[ -S "$HOME/.orbstack/run/docker.sock" ] && export DOCKER_HOST="unix://$HOME/.orbstack/run/docker.sock"
+# Colima socket (docker-py / testcontainers default to /var/run/docker.sock)
+[ -S "$HOME/.colima/default/docker.sock" ] && export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
 
 # --- Aliases ---
 alias ll="eza -l --icons"

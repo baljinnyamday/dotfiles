@@ -5,7 +5,7 @@
 #
 # Left out on purpose (macOS-only, or Linux already has it):
 #   aerospace -> i3          cmux, iterm2, warp -> ghostty + tmux      maccy -> copyq
-#   orbstack -> docker (native, no VM)    coreutils -> GNU is the default    duti -> xdg-mime
+#   colima -> docker (native, no VM)    coreutils -> GNU is the default    duti -> xdg-mime
 #   mole -> paccache.timer (pacman-contrib)     xcodegen    neo4j-mcp (no Linux package)
 #   neofetch -> fastfetch (neofetch is unmaintained)
 #   llama.cpp -> ollama-vulkan (runs on the AMD GPU through Vulkan, no ROCm needed)
