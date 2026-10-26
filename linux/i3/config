@@ -600,7 +600,7 @@ bindsym $mod+Shift+s exec --no-startup-id maim --format=png --select | xclip -se
 # Caps Lock is the Compose key: Caps, Space, e types the text set in ~/.XCompose (per machine, see
 # README). Enabling linux/keyd.conf turns Caps into Esc/Ctrl below X, and this stops working.
 exec --no-startup-id setxkbmap -layout 'us,mn' -variant qwerty -option 'grp:win_space_toggle,compose:caps'
-# key repeat: 250 ms delay (the Mac's 200 ms felt too short here), then 60/s like the Mac. Stopgap until ~/dotfiles/install.sh has
+# key repeat matching the Mac: 250 ms delay, then 60/s. Stopgap until ~/dotfiles/install.sh has
 # copied linux/xorg-keyrepeat.conf into /etc/X11/xorg.conf.d (that also survives replug and suspend);
 # delete these lines then. Keep the numbers the same as that file.
 exec_always --no-startup-id sleep 1 && xset r rate 250 60
