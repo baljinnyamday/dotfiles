@@ -64,6 +64,8 @@ brew "just"
 brew "k6"
 # Add indentation to LaTeX files
 brew "latexindent"
+# Lazier way to manage everything docker
+brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Postgres C API library

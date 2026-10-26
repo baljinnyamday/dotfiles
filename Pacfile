@@ -96,6 +96,7 @@ pacman-contrib         # paccache.timer keeps the package cache small (mole/brew
 docker
 docker-compose
 docker-buildx
+lazydocker             # lazygit for Docker: containers, logs, stats
 
 # --- desktop (i3): everything linux/i3, its scripts and the session need ---
 i3-wm
