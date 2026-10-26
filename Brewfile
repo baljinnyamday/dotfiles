@@ -118,6 +118,8 @@ brew "zoxide"
 # Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
 cask "aerospace"
 # Compact TeX distribution as alternative to the full TeX Live / MacTeX
 cask "basictex"
@@ -130,12 +132,20 @@ cask "docker-desktop"
 cask "font-jetbrains-mono-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Web browser
+cask "google-chrome"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# App to manage software development and track bugs
+cask "linear"
 # Clipboard manager
 cask "maccy"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
+# App to write, plan, collaborate, and get organised
+cask "notion"
+# Knowledge base that works on top of a local folder of plain text Markdown files
+cask "obsidian"
 # Team communication and collaboration software
 cask "slack"
 # Video game digital distribution service
@@ -144,6 +154,10 @@ cask "steam"
 cask "visual-studio-code"
 # Rust-based terminal
 cask "warp"
+# Multiplayer code editor
+cask "zed"
+# Gecko based web browser
+cask "zen"
 # Video communication and virtual meeting platform
 cask "zoom"
 vscode "adpyke.codesnap"
