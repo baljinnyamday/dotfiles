@@ -48,6 +48,7 @@ machine-specific env, such as a work package index or tokens, in
 | `tmux/` | `~/.tmux.conf` | no plugins, Catppuccin status bar on top, popups for lazygit/claude/sessions |
 | `lazygit/` | `~/Library/Application Support/lazygit/config.yml`, Linux `~/.config/lazygit/config.yml` | delta diffs, Cursor as editor, claude + gh custom commands |
 | `nvim/` | `~/.config/nvim` | |
+| `yazi/keymap.toml` | `~/.config/yazi/keymap.toml` | `z` jumps with zoxide, `Z` with fzf (yazi's defaults swapped) |
 | `linux/i3/` | `~/.config/i3` (Linux) | i3 + i3blocks + their scripts: AeroSpace's part, see Linux extras |
 | `linux/rofi/`, `linux/dunst/` | `~/.config/rofi`, `~/.config/dunst/dunstrc` | launcher / power menu, notifications |
 | `linux/xprofile`, `linux/xinitrc` | `~/.xprofile`, `~/.xinitrc` | session env read by LightDM (Qt apps follow the GTK theme); `xinitrc` only for `startx` |

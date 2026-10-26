@@ -1,0 +1,8 @@
+# ~/.config/yazi/keymap.toml -- symlinked from ~/dotfiles/yazi/keymap.toml
+# Yazi's defaults swapped: z is zoxide (folders you've been to, like the shell's z),
+# Z is fzf over every file and folder below this one.
+[mgr]
+prepend_keymap = [
+	{ on = "z", run = "plugin zoxide", desc = "Jump to a folder you've visited (zoxide)" },
+	{ on = "Z", run = "plugin fzf",    desc = "Jump to any file or folder below here (fzf)" },
+]

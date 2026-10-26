@@ -75,7 +75,7 @@ The planners differ because headless Cursor plan mode hangs, and headless agy ca
 ## fzf pickers, everyday use
 
 - `fcd` — fuzzy-pick any folder below the current one and cd into it
-- `y [dir]` — yazi file manager with previews. `q` quits and leaves the shell in the folder you were browsing, `Q` quits without moving. Press `F1` or `~` inside for every key
+- `y [dir]` — yazi file manager with previews. `q` quits and leaves the shell in the folder you were browsing, `Q` quits without moving. `z` jumps to a folder you've visited (zoxide), `Z` fuzzy-finds anything below. Press `F1` or `~` inside for every key
 - `ff` — fuzzy find a file by name, previews it, opens in `cursor` (your Ctrl+P)
 - `frg "<text>"` — fuzzy find text inside files (ripgrep), previews the match in `bat`, opens the pick in `cursor`
 - `fbr` — fuzzy-switch git branches

@@ -39,6 +39,7 @@ link ghostty/config           .config/ghostty/config
 link starship/starship.toml   .config/starship.toml
 link tmux/.tmux.conf          .tmux.conf
 link nvim                     .config/nvim
+link yazi/keymap.toml         .config/yazi/keymap.toml
 for script in "$REPO"/bin/*; do
   link "bin/${script##*/}" ".local/bin/${script##*/}"
 done
