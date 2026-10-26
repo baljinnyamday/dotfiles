@@ -113,6 +113,16 @@ wca() {
 # --- fzf pickers (frg, ff, fbr, fkill, dsh are scripts in ../bin) ---
 fcd() { cd "$(fd -t d | fzf)"; }   # fzf-pick any folder below this one and cd into it
 
+# --- yazi: y opens the file manager; quitting with q leaves this shell in the folder you were in ---
+y() {
+  local tmp cwd
+  tmp=$(mktemp -t yazi-cwd.XXXXXX)
+  yazi "$@" --cwd-file="$tmp"
+  cwd=$(<"$tmp")
+  [[ -n $cwd && $cwd != "$PWD" ]] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
 # --- zsh: global + suffix aliases ---
 alias -g G='| grep -i'
 alias -g C='| pbcopy'   # copy output to the clipboard: pwd C

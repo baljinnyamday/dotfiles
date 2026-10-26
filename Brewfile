@@ -6,6 +6,8 @@ tap "nikitabobko/tap"
 tap "supabase/tap"
 # Code searching, linting, rewriting
 brew "ast-grep"
+# Improved shell history for zsh, bash, fish and nushell
+brew "atuin"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # Microsoft Azure CLI 2.0
@@ -109,6 +111,8 @@ brew "watchexec"
 brew "wget"
 # Generate your Xcode project from a spec file and your folder structure
 brew "xcodegen"
+# Blazing fast terminal file manager written in Rust, based on async I/O
+brew "yazi"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
 # Feature-rich command-line audio/video downloader
@@ -127,8 +131,6 @@ cask "basictex"
 cask "cmux"
 # Voice and text chat software
 cask "discord"
-# App to build and share containerised applications and microservices
-cask "docker-desktop"
 cask "font-jetbrains-mono-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
@@ -138,6 +140,8 @@ cask "google-chrome"
 cask "iterm2"
 # App to manage software development and track bugs
 cask "linear"
+# Open-source cross-platform alternative to AirDrop
+cask "localsend"
 # Clipboard manager
 cask "maccy"
 # Reverse proxy, secure introspectable tunnels to localhost
@@ -146,6 +150,8 @@ cask "ngrok"
 cask "notion"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+# Replacement for Docker Desktop
+cask "orbstack"
 # Team communication and collaboration software
 cask "slack"
 # Video game digital distribution service

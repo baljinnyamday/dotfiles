@@ -106,14 +106,17 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
 source <(fzf --zsh)
+# After fzf so atuin's Ctrl-R (full-screen history search, synced across machines) wins;
+# Up keeps the prefix search bound under Keys.
+eval "$(atuin init zsh --disable-up-arrow)"
 
 # --- Editor ---
 export EDITOR="cursor --wait"
 export BAT_THEME="Catppuccin Mocha"   # bat ships it; delta gets the same theme from ~/.gitconfig
 export VISUAL="$EDITOR"
 
-# Docker Desktop socket (docker-py / testcontainers default to /var/run/docker.sock)
-[ -S "$HOME/.docker/run/docker.sock" ] && export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
+# OrbStack socket (docker-py / testcontainers default to /var/run/docker.sock)
+[ -S "$HOME/.orbstack/run/docker.sock" ] && export DOCKER_HOST="unix://$HOME/.orbstack/run/docker.sock"
 
 # --- Aliases ---
 alias ll="eza -l --icons"

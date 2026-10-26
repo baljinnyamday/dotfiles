@@ -5,7 +5,7 @@
 #
 # Left out on purpose (macOS-only, or Linux already has it):
 #   aerospace -> i3          cmux, iterm2, warp -> ghostty + tmux      maccy -> copyq
-#   docker-desktop -> docker (native, no VM)    coreutils -> GNU is the default    duti -> xdg-mime
+#   orbstack -> docker (native, no VM)    coreutils -> GNU is the default    duti -> xdg-mime
 #   mole -> paccache.timer (pacman-contrib)     xcodegen    neo4j-mcp (no Linux package)
 #   neofetch -> fastfetch (neofetch is unmaintained)
 #   llama.cpp -> ollama-vulkan (runs on the AMD GPU through Vulkan, no ROCm needed)
@@ -18,6 +18,8 @@ zsh-syntax-highlighting
 starship
 zoxide
 fzf
+atuin                  # shell history: Ctrl-R search, synced with the Mac
+yazi                   # terminal file manager: `y` in zsh
 direnv
 eza
 bat
@@ -140,6 +142,7 @@ steam                  # needs [multilib] in /etc/pacman.conf
 [aur]
 google-chrome          # web apps: $mod+Shift+y/m/o/a
 zen-browser-bin        # $mod+w, the default browser
+localsend-bin          # AirDrop between this PC and the Mac
 k6-bin
 rtk-bin
 trufflehog-bin
