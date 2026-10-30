@@ -53,6 +53,7 @@ machine-specific env, such as a work package index or tokens, in
 | `linux/rofi/`, `linux/dunst/` | `~/.config/rofi`, `~/.config/dunst/dunstrc` | launcher / power menu, notifications |
 | `linux/xprofile`, `linux/xinitrc` | `~/.xprofile`, `~/.xinitrc` | session env read by LightDM (Qt apps follow the GTK theme); `xinitrc` only for `startx` |
 | `linux/gtk/` | `~/.config/gtk-{3,4}.0/settings.ini` | Arc-Dark; nwg-look edits these through the symlinks. Dark mode itself is the `color-scheme` gsetting, set by install.sh |
+| fontconfig's `10-sub-pixel-rgb.conf` | `~/.config/fontconfig/conf.d/` (linked by install.sh) | sharper text: RGB subpixel smoothing, for a normal landscape LCD. Delete the link to undo |
 | `linux/copyq/` | `~/.config/copyq/` (copied once, not linked) | CopyQ settings and commands, incl. the ctrl-shift-v menu. History stays local |
 | `linux/bin/` | `~/.local/bin/` (Linux) | `pbcopy` / `pbpaste` over xclip or wl-clipboard, so every `\| pbcopy` here works unchanged; `stale` lists apps still running binaries an update replaced |
 | `linux/keyd.conf` | `/etc/keyd/default.conf` (opt-in) | Caps Lock: tap Esc, hold Ctrl, see Linux extras |

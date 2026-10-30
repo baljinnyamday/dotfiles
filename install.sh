@@ -62,6 +62,10 @@ else
   link linux/xinitrc            .xinitrc
   link linux/gtk/gtk-3.0-settings.ini .config/gtk-3.0/settings.ini
   link linux/gtk/gtk-4.0-settings.ini .config/gtk-4.0/settings.ini
+  # Sharper text: fontconfig's own RGB subpixel preset, right for a normal landscape LCD
+  mkdir -p "$HOME/.config/fontconfig/conf.d"
+  ln -sfn /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf "$HOME/.config/fontconfig/conf.d/10-sub-pixel-rgb.conf"
+  echo "linked    ~/.config/fontconfig/conf.d/10-sub-pixel-rgb.conf"
   # CopyQ rewrites its config by replacing the file, which would turn a symlink into a plain copy,
   # so it's seeded once instead: the Ctrl+Shift+V history menu and the other commands.
   for f in copyq.conf copyq-commands.ini; do
