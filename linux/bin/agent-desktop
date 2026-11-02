@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# agent-desktop -- a second, invisible screen for an AI agent. It is its own X server with its own
+# pointer, keyboard focus and D-Bus, so nothing the agent does moves your mouse or opens on your i3.
+#   agent-desktop start         start it (Xvnc + openbox); does nothing if it's already up
+#   agent-desktop run CMD...    open CMD on the agent's screen, starting the screen if needed
+#   agent-desktop view          watch it, or take over, in a VNC window
+#   agent-desktop stop
+# The agent drives it with `DISPLAY=:1 xdotool ...` and sees it with `DISPLAY=:1 maim shot.png`.
+set -euo pipefail
+
+DISPLAY_NUM=1
+SIZE=1280x800   # computer-use models read screenshots at about this size; larger ones get downscaled
+STATE="$XDG_RUNTIME_DIR/agent-desktop"
+# Apps get a home of their own, so their profiles and single-instance locks (Zen, Chrome, VS Code)
+# don't collide with yours, which would hand the window to your copy on your screen. Your files
+# are still there by full path.
+AGENT_HOME="$HOME/.local/share/agent-desktop/home"
+
+usage() { sed -n '4,8s/^# \{0,1\}//p' "$0" >&2; exit 1; }
+
+is_running() {
+  [ -f "$STATE/xvnc.pid" ] && [ "$(cat "/proc/$(cat "$STATE/xvnc.pid")/comm" 2>/dev/null)" = Xvnc ]
+}
+
+wait_until() {  # wait_until CMD...: up to 5 s for CMD to succeed
+  for _ in $(seq 50); do "$@" && return 0; sleep 0.1; done
+  return 1
+}
+
+screen_up() { is_running && DISPLAY=":$DISPLAY_NUM" xdotool getdisplaygeometry >/dev/null 2>&1; }
+
+start() {
+  if is_running; then echo "agent desktop already running on :$DISPLAY_NUM"; return; fi
+  mkdir -p "$STATE" "$AGENT_HOME"
+  chmod 700 "$STATE"
+  rm -f "$STATE/bus"
+  # VNC only on a socket in your private runtime dir, so it needs no password. -rfbport -1 matters:
+  # without it Xvnc also listens on TCP 5901 on every interface, which would be passwordless.
+  setsid Xvnc ":$DISPLAY_NUM" -geometry "$SIZE" -SecurityTypes None -rfbport -1 \
+    -rfbunixpath "$STATE/vnc.sock" -rfbunixmode 0600 </dev/null >"$STATE/xvnc.log" 2>&1 &
+  echo $! >"$STATE/xvnc.pid"
+  if ! wait_until screen_up; then
+    echo "Xvnc didn't start on :$DISPLAY_NUM. Its log ($STATE/xvnc.log) ends with:" >&2
+    tail -n 5 "$STATE/xvnc.log" >&2
+    exit 1
+  fi
+  # openbox and everything `run` opens share this D-Bus session, not yours: single-instance apps
+  # (Ghostty, Thunar, anything GTK) start fresh here, and notifications don't reach your dunst.
+  # shellcheck disable=SC2016  # the inner sh expands it, once dbus-run-session has set it
+  DISPLAY=":$DISPLAY_NUM" setsid dbus-run-session -- \
+    sh -c 'printf "%s\n" "$DBUS_SESSION_BUS_ADDRESS" >"$1" && exec openbox' sh "$STATE/bus" \
+    </dev/null >"$STATE/openbox.log" 2>&1 &
+  if ! wait_until test -s "$STATE/bus"; then
+    echo "openbox didn't start. Its log ($STATE/openbox.log) ends with:" >&2
+    tail -n 5 "$STATE/openbox.log" >&2
+    exit 1
+  fi
+  echo "agent desktop running on :$DISPLAY_NUM ($SIZE). Watch it with: agent-desktop view"
+}
+
+run() {
+  [ $# -gt 0 ] || usage
+  is_running || start
+  HOME="$AGENT_HOME" DISPLAY=":$DISPLAY_NUM" DBUS_SESSION_BUS_ADDRESS="$(cat "$STATE/bus")" \
+    setsid "$@" </dev/null >>"$STATE/apps.log" 2>&1 &
+  echo "opened $1 on :$DISPLAY_NUM (output in $STATE/apps.log)"
+}
+
+view() {
+  is_running || { echo "agent desktop isn't running. Start it with: agent-desktop start" >&2; exit 1; }
+  exec vncviewer "$STATE/vnc.sock"
+}
+
+stop() {
+  is_running || { echo "agent desktop isn't running"; return; }
+  kill "$(cat "$STATE/xvnc.pid")"
+  rm -f "$STATE/xvnc.pid" "$STATE/bus"
+  echo "stopped the agent desktop. Its apps' settings and logins stay in $AGENT_HOME"
+}
+
+case "${1:-}" in
+  start) start ;;
+  run)   shift; run "$@" ;;
+  view)  view ;;
+  stop)  stop ;;
+  *)     usage ;;
+esac

@@ -55,7 +55,7 @@ machine-specific env, such as a work package index or tokens, in
 | `linux/gtk/` | `~/.config/gtk-{3,4}.0/settings.ini` | Arc-Dark; nwg-look edits these through the symlinks. Dark mode itself is the `color-scheme` gsetting, set by install.sh |
 | fontconfig's `10-sub-pixel-rgb.conf` | `~/.config/fontconfig/conf.d/` (linked by install.sh) | sharper text: RGB subpixel smoothing, for a normal landscape LCD. Delete the link to undo |
 | `linux/copyq/` | `~/.config/copyq/` (copied once, not linked) | CopyQ settings and commands, incl. the ctrl-shift-v menu. History stays local |
-| `linux/bin/` | `~/.local/bin/` (Linux) | `pbcopy` / `pbpaste` over xclip or wl-clipboard, so every `\| pbcopy` here works unchanged; `stale` lists apps still running binaries an update replaced |
+| `linux/bin/` | `~/.local/bin/` (Linux) | `pbcopy` / `pbpaste` over xclip or wl-clipboard, so every `\| pbcopy` here works unchanged; `stale` lists apps still running binaries an update replaced; `agent-desktop` gives an AI agent a screen of its own, see Linux extras |
 | `linux/keyd.conf` | `/etc/keyd/default.conf` (opt-in) | Caps Lock: tap Esc, hold Ctrl, see Linux extras |
 | `linux/xorg-keyrepeat.conf` | `/etc/X11/xorg.conf.d/10-keyrepeat.conf` (copied with sudo) | key repeat matching `macos.sh`: 250 ms, then 60 a second |
 | `bin/` | `~/.local/bin/` | every file gets linked, so a new script only needs `./install.sh`. `claude-in <folder>` (new cmux tab, or a Ghostty window outside cmux), `link-agent-docs [dir]`, `tmux-sessionizer [dir]`, plus the longer commands listed in `zsh/ALIASES.md` (`cc*` pipeline, `ship`, `wrm`, fzf pickers) |
@@ -79,6 +79,26 @@ i3 (`linux/i3/config`) plays AeroSpace's part. On top of EndeavourOS's i3 defaul
 | `caff [cmd]` | keep the machine awake (`systemd-inhibit`) |
 
 Zen's shortcuts are linked from `linux/zen/`: ctrl-b compact mode (hides the sidebar), ctrl-s bookmarks sidebar, ctrl-1…9 tabs. Change them in Zen's settings and the repo file changes too. Add-ons, bookmarks and passwords aren't in the repo: sign in to a Mozilla account in Zen to sync them.
+
+### A desktop for agents
+
+`agent-desktop` gives an AI agent its own invisible screen: a second X server (Xvnc on `:1`) with
+its own pointer, keyboard focus and D-Bus. The agent clicks and types there while you keep using i3;
+it can't move your mouse, take your focus or open a window on your screen.
+
+| Command | Action |
+|---|---|
+| `agent-desktop start` | start the screen (1280x800, openbox) |
+| `agent-desktop run zen-browser` | open an app on it; starts the screen if needed |
+| `agent-desktop view` | watch in a VNC window, or take over, e.g. to log in to something for the agent |
+| `agent-desktop stop` | close it and every app on it |
+
+The agent drives it from its shell: `DISPLAY=:1 xdotool mousemove 400 300 click 1 type 'hello'` to act,
+`DISPLAY=:1 maim shot.png` to see. Apps opened with `run` get their own home folder
+(`~/.local/share/agent-desktop/home`), so their profiles don't collide with the copies you have open,
+and their logins persist between runs. Your files are still reachable by full path. VNC listens only on
+a socket in `$XDG_RUNTIME_DIR`, no network port. On the Mac, cmux-cua (inside cmux) does the same job
+without a second screen.
 
 Opt-in, both need root:
 
