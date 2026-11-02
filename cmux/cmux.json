@@ -15,5 +15,9 @@
       "focusUp": "paneCount > 1",
       "focusRight": "paneCount > 1"
     }
+  },
+  "computerUse": {
+    "enabled": false,
+    "showInMenuBar": false
   }
 }
