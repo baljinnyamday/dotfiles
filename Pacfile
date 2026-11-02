@@ -132,8 +132,8 @@ copyq                  # clipboard history (Maccy)
 flameshot              # area screenshots with annotation
 keyd                   # key remapping in the kernel: see linux/keyd.conf
 
-# --- agent desktop (linux/bin/agent-desktop): a second screen an AI agent drives with xdotool and
-# maim (both above), so it never takes your mouse or focus. The Mac does this with cmux-cua, in cmux.
+# --- agent screen (linux/bin/agent-screen): a second screen an AI agent drives with xdotool and
+# maim (both above), so it never takes your mouse or focus.
 tigervnc               # Xvnc, the agent's invisible X server, and vncviewer to watch it
 openbox                # its window manager: floating windows, like the desktops agents are trained on
 

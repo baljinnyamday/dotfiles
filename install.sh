@@ -73,7 +73,9 @@ else
       install -Dm644 "$REPO/linux/copyq/$f" "$HOME/.config/copyq/$f" && echo "copied    ~/.config/copyq/$f"
     fi
   done
-  # pbcopy/pbpaste stand-ins and other Linux-only scripts
+  # pbcopy/pbpaste stand-ins and other Linux-only scripts. Links left by a script that was since
+  # renamed or deleted go first: a dead one in ~/.local/bin can hide a real command of that name.
+  find "$HOME/.local/bin" -maxdepth 1 -xtype l -lname "$REPO/linux/bin/*" -delete 2>/dev/null || true
   for script in "$REPO"/linux/bin/*; do
     link "linux/bin/${script##*/}" ".local/bin/${script##*/}"
   done
