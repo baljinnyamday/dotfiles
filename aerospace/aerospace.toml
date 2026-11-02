@@ -22,7 +22,7 @@ on-focus-changed = ['move-mouse window-lazy-center']
 automatically-unhide-macos-hidden-apps = false
 
 # Workspaces that survive being empty. Letters are app-dedicated (see on-window-detected).
-persistent-workspaces = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "N", "C", "S", "T", "O", "W", "E"]
+persistent-workspaces = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "N", "C", "M", "T", "O", "W", "I"]
 
 on-mode-changed = []
 focus-follows-mouse.enabled = false
@@ -47,7 +47,7 @@ run = 'move-node-to-workspace C'
 
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
-run = 'move-node-to-workspace S'
+run = 'move-node-to-workspace M'
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.teams2'
@@ -63,31 +63,32 @@ run = 'move-node-to-workspace W'
 
 [[on-window-detected]]
 if.app-id = 'com.todesktop.230313mzl4w4u92'
-run = 'move-node-to-workspace E'
+run = 'move-node-to-workspace I'
 
 [mode.main.binding]
     # Terminal
     alt-enter = 'exec-and-forget open -a cmux'            # main terminal (vertical tabs)
     alt-shift-enter = 'exec-and-forget open -na Ghostty'  # plain Ghostty window, e.g. for heavy ssh + tmux
 
-    # Jump to an app's workspace, launching the app there if it isn't running
+    # Jump to an app's workspace, launching the app there if it isn't running.
+    # Letters avoid i3's defaults (e split, s stacking): M = messages (Slack), I = IDE (Cursor).
     alt-n = ['workspace N', 'exec-and-forget open -a Notion']
     alt-c = ['workspace C', 'exec-and-forget open -a Claude']
-    alt-s = ['workspace S', 'exec-and-forget open -a Slack']
+    alt-m = ['workspace M', 'exec-and-forget open -a Slack']
     alt-t = ['workspace T', 'exec-and-forget open -a "Microsoft Teams"']
     alt-o = ['workspace O', 'exec-and-forget open -a "Microsoft Outlook"']
     alt-w = ['workspace W', 'exec-and-forget open -a cmux']
     alt-b = 'exec-and-forget open -a "Google Chrome"'
-    alt-e = ['workspace E', 'exec-and-forget open -a Cursor']
+    alt-i = ['workspace I', 'exec-and-forget open -a Cursor']
 
     # Move the focused window to an app's workspace
     alt-shift-n = 'move-node-to-workspace N'
     alt-shift-c = 'move-node-to-workspace C'
-    alt-shift-s = 'move-node-to-workspace S'
+    alt-shift-m = 'move-node-to-workspace M'
     alt-shift-t = 'move-node-to-workspace T'
     alt-shift-o = 'move-node-to-workspace O'
     alt-shift-w = 'move-node-to-workspace W'
-    alt-shift-e = 'move-node-to-workspace E'
+    alt-shift-i = 'move-node-to-workspace I'
 
     # Focus (wraps around inside the workspace, like i3)
     alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
@@ -110,6 +111,8 @@ run = 'move-node-to-workspace E'
     ctrl-alt-shift-l = 'move-node-to-monitor --wrap-around --focus-follows-window right'
 
     # Layout
+    alt-e = 'layout tiles horizontal vertical'  # i3 mod+e: toggle split (also leaves a stack)
+    alt-s = 'layout v_accordion'                # i3 mod+s: stacking
     alt-f = 'fullscreen'
     alt-shift-space = 'layout floating tiling'
     alt-slash = 'layout tiles horizontal vertical'
