@@ -1,0 +1,7 @@
+#!/bin/sh
+# LibrePods opens its window only from its tray icon, and it crashes when no
+# StatusNotifierWatcher exists. This i3 setup has no bar, so snixembed provides
+# the watcher, and restarting LibrePods is the way to get its window back.
+pgrep -x snixembed >/dev/null || snixembed --fork
+pkill -x librepods && pidwait -x librepods
+exec librepods

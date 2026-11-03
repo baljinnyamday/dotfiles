@@ -133,6 +133,7 @@ if [[ $OSTYPE == darwin* ]]; then
 else
   # caff [cmd...]: keep the machine awake while cmd runs, or until Ctrl-C
   caff() { (( $# )) || set -- sleep infinity; systemd-inhibit --what=idle:sleep --why=caff "$@"; }
+  alias zed="zeditor"   # Arch's zed package names the command zeditor
 fi
 alias cla="claude"
 alias zconfig="cursor ~/.zshrc"

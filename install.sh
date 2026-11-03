@@ -62,6 +62,8 @@ else
   link linux/xinitrc            .xinitrc
   link linux/gtk/gtk-3.0-settings.ini .config/gtk-3.0/settings.ini
   link linux/gtk/gtk-4.0-settings.ini .config/gtk-4.0/settings.ini
+  # Overrides the package's LibrePods launcher entry so it runs linux/bin/librepods-open
+  link linux/applications/me.kavishdevar.librepods.desktop .local/share/applications/me.kavishdevar.librepods.desktop
   # Sharper text: fontconfig's own RGB subpixel preset, right for a normal landscape LCD
   mkdir -p "$HOME/.config/fontconfig/conf.d"
   ln -sfn /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf "$HOME/.config/fontconfig/conf.d/10-sub-pixel-rgb.conf"
