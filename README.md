@@ -70,7 +70,14 @@ i3 (`linux/i3/config`) plays AeroSpace's part. On top of EndeavourOS's i3 defaul
 | Key / command | Action |
 |---|---|
 | super-enter | Ghostty, on the current workspace (xfce4-terminal until Ghostty is installed) |
-| super-w | Zen, the default browser (Chrome is kept for the web-app keys) |
+| super-w | page W, an empty letter workspace |
+| super-c / m / i / o / g / t / n / y | app pages, like AeroSpace's alt-letter: Claude / Slack / Cursor / Outlook / Gmail / Teams / Notion / YouTube. Jumps to the app, or starts it on its page. Claude and the mail, Teams, Notion and YouTube pages are Chrome `--app` windows |
+| super-shift-w / c / m / i / o / g / t / n / y | move the focused window to that page |
+| super-b | Zen, the default browser, on the current workspace (alt-b opens Chrome on the Mac) |
+| super-e / s | i3's toggle split / stacking, as on the Mac; super-/ and super-, also work (tiles / accordion) |
+| super-shift-r | restart i3, which rereads the config |
+| super-shift-d / f | window switcher (rofi) / Thunar |
+| super-shift-s | select an area, screenshot it to the clipboard |
 | super-\` | drop-down Ghostty, an i3 scratchpad (Ghostty's own quick terminal needs Wayland) |
 | ctrl-shift-v | CopyQ clipboard history (Maccy) |
 | Print | flameshot: select an area, annotate, copy or save |

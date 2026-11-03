@@ -1,0 +1,11 @@
+#!/bin/sh
+# An app's page, like AeroSpace's alt-letter on the Mac: focus the app if it is
+# running, otherwise go to its workspace and start it there.
+# Usage: page WORKSPACE 'I3_CRITERIA' COMMAND [ARGS...]
+ws=$1
+criteria=$2
+shift 2
+
+i3-msg -q "$criteria focus" && exit 0
+i3-msg -q "workspace $ws"
+exec "$@"

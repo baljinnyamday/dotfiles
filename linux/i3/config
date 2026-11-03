@@ -194,10 +194,7 @@ bindsym $mod+Shift+e exec ~/.config/i3/scripts/powermenu
 # lock by blurring the screen:
 bindsym $mod+Shift+z exec ~/.config/i3/scripts/blur-lock
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
-
-# restart i3 inplace (preserves your layout/session, can be used to update i3)
+# restart i3 inplace: rereads the config like AeroSpace's alt-shift-r, keeps your layout, picks up an updated i3
 bindsym $mod+Shift+r restart
 
 # keybinding in fancy rofi (automated):
@@ -243,10 +240,12 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+g layout tabbed
+# change container layout: i3's own $mod+e / $mod+s, which the Mac uses too, plus AeroSpace's
+# $mod+slash tiles (toggle split) and $mod+comma accordion (tabbed / stacked)
 bindsym $mod+e layout toggle split
+bindsym $mod+s layout stacking
+bindsym $mod+slash layout toggle split
+bindsym $mod+comma layout toggle tabbed stacking
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -256,9 +255,6 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
-
-# open new empty workspace
-bindsym $mod+Shift+n exec ~/.config/i3/scripts/empty_workspace
 
 # Multimedia Keys
 
@@ -283,14 +279,34 @@ bindsym XF86AudioPrev exec playerctl previous
 # $mod+p ran /usr/local/bin/switch-audio-port, which no longer exists
 #bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
-## App shortcuts
-bindsym $mod+w exec zen-browser
-# web apps: a site in its own Chrome window, no tabs or address bar (same profile, so already logged in)
-bindsym $mod+Shift+y exec google-chrome-stable --app=https://www.youtube.com
-bindsym $mod+Shift+m exec google-chrome-stable --app=https://mail.google.com
-bindsym $mod+Shift+o exec google-chrome-stable --app=https://outlook.office.com/mail/
-bindsym $mod+Shift+a exec google-chrome-stable --app=https://claude.ai
-bindsym $mod+n exec /usr/bin/thunar
+## App pages, like AeroSpace's alt-letter on the Mac: $mod+letter jumps to the app's own workspace
+## and starts the app if it isn't running; $mod+Shift+letter moves the focused window there.
+## Web apps are a site in its own Chrome window, no tabs or address bar (same profile, so already
+## logged in). Chrome names those windows after the URL; the assign rules further down match the same names.
+set $page exec --no-startup-id ~/.config/i3/scripts/page
+bindsym $mod+w workspace W
+bindsym $mod+c $page C '[instance="^claude.ai$"]' google-chrome-stable --app=https://claude.ai
+bindsym $mod+m $page M '[class="(?i)^slack$"]' slack
+bindsym $mod+i $page I '[class="(?i)^cursor$"]' cursor
+bindsym $mod+o $page O '[instance="^outlook.office.com__mail$"]' google-chrome-stable --app=https://outlook.office.com/mail/
+bindsym $mod+g $page G '[instance="^mail.google.com$"]' google-chrome-stable --app=https://mail.google.com
+bindsym $mod+t $page T '[instance="^teams.microsoft.com$"]' google-chrome-stable --app=https://teams.microsoft.com
+bindsym $mod+n $page N '[instance="^www.notion.so$"]' google-chrome-stable --app=https://www.notion.so
+bindsym $mod+y $page Y '[instance="^www.youtube.com$"]' google-chrome-stable --app=https://www.youtube.com
+
+bindsym $mod+Shift+w move container to workspace W
+bindsym $mod+Shift+c move container to workspace C
+bindsym $mod+Shift+m move container to workspace M
+bindsym $mod+Shift+i move container to workspace I
+bindsym $mod+Shift+o move container to workspace O
+bindsym $mod+Shift+g move container to workspace G
+bindsym $mod+Shift+t move container to workspace T
+bindsym $mod+Shift+n move container to workspace N
+bindsym $mod+Shift+y move container to workspace Y
+
+# Zen opens on the current workspace, like alt-b opens Chrome on the Mac
+bindsym $mod+b exec zen-browser
+bindsym $mod+Shift+f exec thunar
 # Print: select an area, annotate it, then copy or save (flameshot). Shift+Print: whole screen to ~
 bindsym Print exec --no-startup-id flameshot gui
 bindsym Shift+Print exec scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
@@ -324,17 +340,16 @@ set $ws10 "10"
 #workspace $ws4 output HDMI-0
 #workspace $ws5 output HDMI-0
 
-# bind program to workspace and focus to them on startup:
-assign [class="(?i)firefox"] $ws2
-assign [class="Thunar"] $ws3
-assign [class="Thunderbird"] $ws4
-assign [class="TelegramDesktop"] $ws5
-
-# automatic set focus new window if it opens on another workspace than the current:
-for_window [class=(?i)firefox] focus
-for_window [class=Thunar] focus
-for_window [class=Thunderbird] focus
-for_window [class=TelegramDesktop] focus
+# app pages: their windows land there however they were opened (AeroSpace's on-window-detected).
+# Numbered workspaces stay free for anything, as on the Mac.
+assign [instance="^claude.ai$"] C
+assign [class="(?i)^slack$"] M
+assign [class="(?i)^cursor$"] I
+assign [instance="^outlook.office.com__mail$"] O
+assign [instance="^mail.google.com$"] G
+assign [instance="^teams.microsoft.com$"] T
+assign [instance="^www.notion.so$"] N
+assign [instance="^www.youtube.com$"] Y
 
 ##############
 # compositor #
@@ -576,9 +591,9 @@ bindsym $mod+d exec rofi -modi drun -show drun \
 #bindsym F9 exec rofi -modi drun -show drun \
 #		-config ~/.config/rofi/rofidmenu.rasi
 
-## rofi bindings for window menu ($mod+t /F10 optional disabled)
+## rofi bindings for window menu ($mod+Shift+d /F10 optional disabled)
 
-bindsym $mod+t exec rofi -show window \
+bindsym $mod+Shift+d exec rofi -show window \
 		-config ~/.config/rofi/rofidmenu.rasi
 
 #bindsym F10 exec rofi -show window \
