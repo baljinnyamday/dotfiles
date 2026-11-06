@@ -391,6 +391,9 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 exec --no-startup-id dex --autostart --environment i3
 
+# LibrePods (AirPods) in the background, no window: the hi-res mic and ear detection need it running
+exec --no-startup-id ~/.local/bin/librepods-open --start-minimized
+
 # start welcome app
 #exec --no-startup-id sh /usr/share/endeavouros/scripts/welcome --startdelay=3 
 

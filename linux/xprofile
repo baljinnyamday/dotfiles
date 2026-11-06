@@ -4,5 +4,9 @@
 # dark like the rest. GTK and Firefox follow the color-scheme gsetting instead.
 export QT_QPA_PLATFORMTHEME=gtk3
 
+# Lets i3 and rofi run the scripts in ~/.local/bin (librepods-open and the rest). Appended, so
+# the system's own pip, uv and yt-dlp still come first for anything started from the desktop.
+export PATH="$PATH:$HOME/.local/bin"
+
 # Terminal tools (gh, git, python webbrowser) read $BROWSER. This overrides BROWSER=firefox from /etc/environment.
 export BROWSER=zen-browser

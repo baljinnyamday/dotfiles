@@ -1,7 +1,12 @@
 #!/bin/sh
-# LibrePods opens its window only from its tray icon, and it crashes when no
-# StatusNotifierWatcher exists. This i3 setup has no bar, so snixembed provides
-# the watcher, and restarting LibrePods is the way to get its window back.
+# LibrePods crashes when no StatusNotifierWatcher exists, and polybar's tray only hosts
+# XEmbed icons, so snixembed provides the watcher and bridges the icon. LibrePods opens
+# its window only at start or from that icon (the bar is often hidden), so this restarts it.
+# Runs the hi-res mic build (linux/LIBREPODS.md) when it is installed and still starts:
+# an ffmpeg update can remove the libavcodec it was built against. Otherwise the packaged
+# librepods runs. Arguments go to LibrePods.
+bin="$HOME/.local/bin/librepods-hires"
+"$bin" --version >/dev/null 2>&1 || bin=librepods
 pgrep -x snixembed >/dev/null || snixembed --fork
-pkill -x librepods && pidwait -x librepods
-exec librepods
+pkill -x 'librepods(-hires)?' && pidwait -x 'librepods(-hires)?'
+exec "$bin" "$@"
