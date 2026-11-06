@@ -15,4 +15,7 @@ fi
 # bluetoothctl colours its output even when piped, so the escape codes go first.
 connected=$(timeout "$TIMEOUT" bluetoothctl devices Connected 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g')
 device=$(head -1 <<<"$connected" | cut -d' ' -f3-)
+# A device picks its own name, and polybar reads "%{" as a tag, which can be a click
+# command. Breaking the sequence shows it as text.
+device=${device//'%{'/'% {'}
 echo "󰂯 ${device:-on}"
