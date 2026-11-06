@@ -75,6 +75,11 @@ else
       install -Dm644 "$REPO/linux/copyq/$f" "$HOME/.config/copyq/$f" && echo "copied    ~/.config/copyq/$f"
     fi
   done
+  # Flameshot rewrites its config the same way. The seed makes it read the screen from X11 directly:
+  # its default goes through the screenshot portal, and the portal has no backend that works on i3.
+  if [ ! -e "$HOME/.config/flameshot/flameshot.ini" ]; then
+    install -Dm644 "$REPO/linux/flameshot/flameshot.ini" "$HOME/.config/flameshot/flameshot.ini" && echo "copied    ~/.config/flameshot/flameshot.ini"
+  fi
   # pbcopy/pbpaste stand-ins and other Linux-only scripts. Links left by a script that was since
   # renamed or deleted go first: a dead one in ~/.local/bin can hide a real command of that name.
   find "$HOME/.local/bin" -maxdepth 1 -xtype l -lname "$REPO/linux/bin/*" -delete 2>/dev/null || true
