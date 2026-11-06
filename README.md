@@ -51,6 +51,8 @@ machine-specific env, such as a work package index or tokens, in
 | `yazi/keymap.toml` | `~/.config/yazi/keymap.toml` | `z` jumps with zoxide, `Z` with fzf (yazi's defaults swapped) |
 | `linux/i3/` | `~/.config/i3` (Linux) | i3 + i3blocks + their scripts: AeroSpace's part, see Linux extras |
 | `linux/rofi/`, `linux/dunst/` | `~/.config/rofi`, `~/.config/dunst/dunstrc` | launcher / power menu, notifications |
+| `linux/polybar/` | `~/.config/polybar` | the top bar, hidden until super-shift-/, and its module scripts |
+| `linux/flameshot/` | `~/.config/flameshot/` (copied once, not linked) | captures through X11, since the screenshot portal has no backend on i3; no help overlay |
 | `linux/xprofile`, `linux/xinitrc` | `~/.xprofile`, `~/.xinitrc` | session env read by LightDM (Qt apps follow the GTK theme); `xinitrc` only for `startx` |
 | `linux/gtk/` | `~/.config/gtk-{3,4}.0/settings.ini` | Arc-Dark; nwg-look edits these through the symlinks. Dark mode itself is the `color-scheme` gsetting, set by install.sh |
 | fontconfig's `10-sub-pixel-rgb.conf` | `~/.config/fontconfig/conf.d/` (linked by install.sh) | sharper text: RGB subpixel smoothing, for a normal landscape LCD. Delete the link to undo |
@@ -78,7 +80,9 @@ i3 (`linux/i3/config`) plays AeroSpace's part. On top of EndeavourOS's i3 defaul
 | super-e / s | i3's toggle split / stacking, as on the Mac; super-/ and super-, also work (tiles / accordion) |
 | super-shift-r | restart i3, which rereads the config |
 | super-shift-d / f | window switcher (rofi) / Thunar |
-| super-shift-s | select an area, screenshot it to the clipboard |
+| super-shift-s | flameshot: select an area, copied to the clipboard as soon as you let go; works over open app menus |
+| super-shift-/ | show or hide the top bar: workspaces, now playing, date, updates, keyboard layout, Bluetooth (click: Overskride), Wi-Fi (click: nmtui), volume, CPU, GPU, RAM, disk, do not disturb, tray |
+| volume keys | change the volume with a popup showing the level; super for 1% steps |
 | super-\` | drop-down Ghostty, an i3 scratchpad (Ghostty's own quick terminal needs Wayland) |
 | ctrl-shift-v | CopyQ clipboard history (Maccy) |
 | Print | flameshot: select an area, annotate, copy or save |

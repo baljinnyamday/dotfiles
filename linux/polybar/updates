@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Polybar module: how many official-repo package updates are waiting.
+# An empty line hides the module: when there are none, and when the check fails (offline,
+# pacman db locked), since no number is better than a wrong one. AUR updates are left out
+# because `yay -Qua` exits the same way for "none" and for an error.
+set -uo pipefail
+
+# checkupdates exits 0 with updates listed, 2 when there are none and 1 on errors.
+updates=$(checkupdates 2>/dev/null)
+if (($? != 0)); then
+  echo
+  exit 0
+fi
+
+echo "󰏗 $(wc -l <<<"$updates")"

@@ -57,6 +57,7 @@ else
   # The i3 desktop: AeroSpace's counterpart, plus its launcher, notifications and session env
   link linux/i3                 .config/i3
   link linux/rofi               .config/rofi
+  link linux/polybar            .config/polybar
   link linux/dunst/dunstrc      .config/dunst/dunstrc
   link linux/xprofile           .xprofile
   link linux/xinitrc            .xinitrc

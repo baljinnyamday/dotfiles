@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Changes the default output's volume and shows the new level as a notification with a bar.
+# The stack tag makes each key press replace the last popup instead of piling them up.
+# Usage: volume-osd up [step] | down [step] | mute     (step is in percent, default 5)
+set -euo pipefail
+
+SINK=@DEFAULT_AUDIO_SINK@
+DEFAULT_STEP=5
+ICONS=/usr/share/icons/Qogir/32/status
+POPUP_MS=1500
+
+step=${2:-$DEFAULT_STEP}
+case ${1:-} in
+  # Like macOS, raising the volume also unmutes.
+  up)   wpctl set-mute "$SINK" 0; wpctl set-volume --limit 1.0 "$SINK" "$step%+" ;;
+  down) wpctl set-volume "$SINK" "$step%-" ;;
+  mute) wpctl set-mute "$SINK" toggle ;;
+  *)    echo "usage: volume-osd up [step] | down [step] | mute" >&2; exit 2 ;;
+esac
+
+# wpctl prints "Volume: 0.54", with " [MUTED]" on the end when muted.
+read -r _ level muted < <(wpctl get-volume "$SINK")
+percent=$(awk -v level="$level" 'BEGIN { printf "%d", level * 100 + 0.5 }')
+
+bar=$percent
+text="$percent%"
+if [[ -n $muted || $percent -eq 0 ]]; then
+  icon=muted bar=0 text=Muted
+elif ((percent < 34)); then
+  icon=low
+elif ((percent < 67)); then
+  icon=medium
+else
+  icon=high
+fi
+
+notify-send --app-name=volume --expire-time="$POPUP_MS" \
+  --hint=string:x-dunst-stack-tag:volume --hint=int:value:"$bar" \
+  --icon="$ICONS/audio-volume-$icon.svg" Volume "$text"

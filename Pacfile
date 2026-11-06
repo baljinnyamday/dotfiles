@@ -131,7 +131,9 @@ nwg-look               # GTK theme picker; writes linux/gtk/*.ini through the sy
 copyq                  # clipboard history (Maccy)
 flameshot              # area screenshots with annotation
 keyd                   # key remapping in the kernel: see linux/keyd.conf
-snixembed              # tray host LibrePods needs to start, since this i3 has no bar (linux/bin/librepods-open)
+snixembed              # StatusNotifier host LibrePods needs to start; puts those icons in polybar's tray (linux/bin/librepods-open)
+polybar                # top bar, hidden until $mod+Shift+/ (linux/polybar)
+pavucontrol            # volume mixer, opened by a right-click on the bar's volume
 
 # --- agent screen (linux/bin/agent-screen): a second screen an AI agent drives with xdotool and
 # maim (both above), so it never takes your mouse or focus.
@@ -154,6 +156,7 @@ google-chrome          # web-app pages: $mod+c/o/g/t/n/y
 zen-browser-bin        # $mod+b, the default browser
 localsend-bin          # AirDrop between this PC and the Mac
 librepods-rust-git     # AirPods Pro features (noise control, battery); open it with librepods-open
+overskride-bin         # Bluetooth settings, opened by a click on the bar's Bluetooth
 1password              # packaged by 1Password itself
 k6-bin
 rtk-bin

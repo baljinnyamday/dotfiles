@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Polybar module: Bluetooth on or off, and the connected device's name.
+# A timeout or error leaves bluetoothctl's output empty, which reads as off or no device.
+set -uo pipefail
+
+# bluetoothctl waits forever when bluetoothd is down, which would freeze the module.
+TIMEOUT=2
+
+state=$(timeout "$TIMEOUT" bluetoothctl show 2>/dev/null)
+if [[ $state != *"Powered: yes"* ]]; then
+  echo "󰂲 off"
+  exit 0
+fi
+
+# bluetoothctl colours its output even when piped, so the escape codes go first.
+connected=$(timeout "$TIMEOUT" bluetoothctl devices Connected 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g')
+device=$(head -1 <<<"$connected" | cut -d' ' -f3-)
+echo "󰂯 ${device:-on}"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Shows or hides the top bar ($mod+Shift+/). Polybar starts on the first press, so the
+# desktop stays bare after login.
+if pgrep -x polybar >/dev/null; then
+  polybar-msg cmd toggle >/dev/null
+else
+  polybar --quiet main &
+fi

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Polybar module: AMD GPU load and temperature, read from the amdgpu driver's sysfs files.
+# Without an amdgpu card it prints nothing, which hides the module.
+set -euo pipefail
+shopt -s nullglob
+
+busy=(/sys/class/drm/card*/device/gpu_busy_percent)
+((${#busy[@]} > 0)) || exit 0
+
+device=${busy[0]%/gpu_busy_percent}
+temp=("$device"/hwmon/hwmon*/temp1_input)
+echo "󰢮 $(<"${busy[0]}")% $(($(<"${temp[0]}") / 1000))°C"

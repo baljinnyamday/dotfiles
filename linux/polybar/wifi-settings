@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Opens NetworkManager's Wi-Fi settings (nmtui) in its own terminal window, which
+# linux/i3/config floats in the middle of the screen.
+
+# nmtui's stock light-blue and pink colors leave the selected item unreadable; this is
+# a dark set in the i3 theme's blue.
+NEWT_COLORS='
+root=white,black
+border=blue,black
+window=white,black
+shadow=,black
+title=brightblue,black
+textbox=white,black
+label=white,black
+entry=white,black
+disentry=gray,black
+button=black,blue
+actbutton=black,brightblue
+compactbutton=white,black
+checkbox=white,black
+actcheckbox=black,blue
+listbox=white,black
+actlistbox=black,blue
+sellistbox=white,black
+actsellistbox=black,blue
+helpline=white,black
+roottext=white,black
+emptyscale=,black
+fullscale=,blue
+'
+export NEWT_COLORS
+
+exec ghostty --gtk-single-instance=false --class=com.mitchellh.ghostty.wifi \
+  --x11-instance-name=wifi-settings --title=Wi-Fi -e nmtui
