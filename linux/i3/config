@@ -474,6 +474,9 @@ for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
 for_window [class="qt5ct" instance="qt5ct"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
 for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
+for_window [class="^overskride$"] floating enable, resize set 1000 720, move position center
+# LibrePods sets an empty WM_CLASS, so match its title.
+for_window [title="^LibrePods$"] floating enable, move position center
 for_window [class="Pamac-manager"] floating enable
 for_window [window_role="About"] floating enable
 
