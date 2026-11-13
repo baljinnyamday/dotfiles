@@ -43,7 +43,6 @@ machine-specific env, such as a work package index or tokens, in
 | `aerospace/` | `~/.aerospace.toml` | i3-style tiling, see keys below |
 | `ghostty/` | `~/.config/ghostty/config` | Catppuccin Mocha, JetBrainsMono Nerd Font, drop-down quick terminal. cmux reads it too |
 | `cmux/` | `~/.config/cmux/cmux.json` | Warp-style vertical tabs on top of Ghostty, ctrl+tab cycles the sidebar, cmd+hjkl moves between splits |
-| `warp/` | `~/.warp/settings.toml` | vertical tabs, JetBrainsMono Nerd Font, Warp hot-reloads edits |
 | `starship/` | `~/.config/starship.toml` | gruvbox powerline prompt |
 | `tmux/` | `~/.tmux.conf` | no plugins, Catppuccin status bar on top, popups for lazygit/claude/sessions |
 | `lazygit/` | `~/Library/Application Support/lazygit/config.yml`, Linux `~/.config/lazygit/config.yml` | delta diffs, Cursor as editor, claude + gh custom commands |

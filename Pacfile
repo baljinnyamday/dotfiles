@@ -4,7 +4,7 @@
 # Brewfile itself, so those lists live in one place.
 #
 # Left out on purpose (macOS-only, or Linux already has it):
-#   aerospace -> i3          cmux, iterm2, warp -> ghostty + tmux      maccy -> copyq
+#   aerospace -> i3          cmux, iterm2 -> ghostty + tmux            maccy -> copyq
 #   colima -> docker (native, no VM)    coreutils -> GNU is the default    duti -> xdg-mime
 #   mole -> paccache.timer (pacman-contrib)     xcodegen    neo4j-mcp (no Linux package)
 #   neofetch -> fastfetch (neofetch is unmaintained)

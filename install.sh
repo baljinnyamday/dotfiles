@@ -49,7 +49,6 @@ if [ "$OS" = Darwin ]; then
   link aerospace/aerospace.toml .aerospace.toml
   link cmux/cmux.json           .config/cmux/cmux.json
   link lazygit/config.yml       "Library/Application Support/lazygit/config.yml"
-  link warp/settings.toml       .warp/settings.toml
 else
   link git/os-linux.gitconfig   .config/git/os.gitconfig
   link ghostty/linux.conf      .config/ghostty/os.conf

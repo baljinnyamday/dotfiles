@@ -168,8 +168,6 @@ cask "slack"
 cask "steam"
 # Open-source code editor
 cask "visual-studio-code"
-# Rust-based terminal
-cask "warp"
 # Multiplayer code editor
 cask "zed"
 # Gecko based web browser
