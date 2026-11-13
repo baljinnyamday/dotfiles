@@ -13,7 +13,7 @@ xcode-select --install
 git clone git@github.com:baljinnyamday/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./install.sh --brew --tools   # symlink configs, brew bundle, then claude / uv / cursor-agent
-./macos.sh                    # key repeat, dock, finder defaults
+./macos.sh                    # key repeat, § types `, dock, finder defaults
 ```
 
 ## Fresh Arch / EndeavourOS
@@ -63,7 +63,7 @@ machine-specific env, such as a work package index or tokens, in
 | `bin/` | `~/.local/bin/` | every file gets linked, so a new script only needs `./install.sh`. `claude-in <folder>` (new cmux tab, or a Ghostty window outside cmux), `link-agent-docs [dir]`, `tmux-sessionizer [dir]`, plus the longer commands listed in `zsh/ALIASES.md` (`cc*` pipeline, `ship`, `wrm`, fzf pickers) |
 | `Brewfile` | | refresh with `brew bundle dump --force --describe` |
 | `Pacfile` | | Arch packages, `./install.sh --pacman`; lines after `[aur]` go through yay |
-| `macos.sh` | | `defaults write` settings |
+| `macos.sh` | | `defaults write` settings, plus `macos/keyremap.plist` copied to `~/Library/LaunchAgents/`: § ± types `` ` `` `~` on an ISO keyboard |
 
 ## Linux extras
 
